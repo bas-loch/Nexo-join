@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { Locale } from "@/i18n/locales";
+import { CtaButton } from "@/components/common/CtaButton";
 
 export function CtaBand({
   locale,
@@ -17,12 +17,13 @@ export function CtaBand({
       <div className="mx-auto max-w-4xl px-6 py-16 sm:py-20 text-center">
         <h2 className="font-serif-display text-2xl sm:text-3xl">{title}</h2>
         <p className="mt-3 text-offwhite/75 max-w-xl mx-auto">{text}</p>
-        <Link
+        <CtaButton
           href={`/${locale}/contact#reservation`}
-          className="mt-8 inline-block rounded-full bg-gold-500 text-navy-950 font-semibold px-7 py-3.5 hover:bg-gold-400 transition-colors"
+          variant="solid"
+          className="mt-8 px-7 py-3.5"
         >
           {cta}
-        </Link>
+        </CtaButton>
       </div>
     </section>
   );

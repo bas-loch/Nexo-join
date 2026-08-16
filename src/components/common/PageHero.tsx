@@ -20,7 +20,9 @@ export function PageHero({
       )}
       <div className="absolute inset-0 bg-gradient-to-b from-navy-950/50 via-navy-950/75 to-navy-950" />
       <div className="relative mx-auto max-w-4xl px-6 py-20 sm:py-28 text-center">
-        <h1 className="font-serif-display text-4xl sm:text-5xl">{title}</h1>
+        <h1 className="font-serif-display text-[clamp(2.5rem,6vw,5.5rem)] leading-[0.98] tracking-[-0.015em]">
+          {title}
+        </h1>
         <p className="mt-4 text-offwhite/80 max-w-2xl mx-auto">{subtitle}</p>
       </div>
     </section>

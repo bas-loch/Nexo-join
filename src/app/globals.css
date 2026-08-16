@@ -73,6 +73,29 @@ body {
   border-color: var(--color-gold-500);
 }
 
+@keyframes hero-gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.hero-gradient-animated {
+  background-image: linear-gradient(
+    115deg,
+    var(--color-navy-950),
+    var(--color-navy-800) 35%,
+    var(--color-navy-700) 55%,
+    var(--color-gold-500) 78%,
+    var(--color-navy-900) 100%
+  );
+  background-size: 220% 220%;
+  animation: hero-gradient-shift 18s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

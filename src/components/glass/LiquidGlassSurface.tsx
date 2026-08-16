@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useRenderTier } from "@/lib/useRenderTier";
 
 interface LiquidGlassContainerInstance {
   element: HTMLElement;
@@ -40,15 +41,10 @@ function loadContainerScript(): Promise<void> {
   return containerScriptPromise;
 }
 
-function canUseLiquidGlass(): boolean {
-  if (typeof window === "undefined") return false;
-  if (window.innerWidth < 768) return false;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return false;
-
+function hasWebGL(): boolean {
   try {
     const canvas = document.createElement("canvas");
-    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
-    return !!gl;
+    return !!(canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
   } catch {
     return false;
   }
@@ -73,12 +69,14 @@ export function LiquidGlassSurface({
   tintOpacity = 0.18,
   className = "absolute inset-0 -z-10 overflow-hidden pointer-events-none",
 }: LiquidGlassSurfaceProps) {
+  const tier = useRenderTier();
   const hostRef = useRef<HTMLDivElement>(null);
   const initialized = useRef(false);
 
   useEffect(() => {
     if (initialized.current) return;
-    if (!canUseLiquidGlass()) return;
+    if (tier === "minimal") return;
+    if (!hasWebGL()) return;
     initialized.current = true;
 
     let cancelled = false;
@@ -106,7 +104,7 @@ export function LiquidGlassSurface({
     return () => {
       cancelled = true;
     };
-  }, [shape, borderRadius, tintOpacity]);
+  }, [shape, borderRadius, tintOpacity, tier]);
 
   return <div ref={hostRef} aria-hidden className={className} />;
 }

@@ -30,12 +30,13 @@ function GoldGem() {
   );
 }
 
-export function ThreeScene() {
+export function ThreeScene({ active = true }: { active?: boolean }) {
   return (
     <Canvas
       dpr={[1, 1.5]}
       camera={{ position: [0, 0, 5.5], fov: 42 }}
       gl={{ antialias: true, alpha: true }}
+      frameloop={active ? "always" : "never"}
     >
       <ambientLight intensity={0.6} />
       <directionalLight position={[4, 4, 5]} intensity={1.4} color="#f6f1e7" />

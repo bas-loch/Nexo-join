@@ -13,22 +13,52 @@ import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion"
  *  - si absentes : affiche un état placeholder élégant, sans rien inventer
  *  - si présentes : dessine la frame correspondante sur un <canvas>,
  *    pilotée par la progression du scroll dans la section, avec un texte
- *    éditorial qui se révèle par étapes au fil du défilement.
+ *    éditorial qui se déplace autour de l'assiette par étapes.
+ *
+ * L'ensemble est présenté dans un cadre ("vitrine") avec des liserés en
+ * haut et en bas, pour marquer clairement la démarcation entre cette
+ * séquence et le reste du site.
  */
 
 const TOTAL_FRAMES = 121;
 const FRAME_PATH = (index: number) =>
   `/animation/frames/frame-${String(index).padStart(3, "0")}.jpg`;
 
+type StagePosition = "top" | "right" | "left" | "bottom";
+
 // Texte éditorial d'accompagnement — propositions de ton, pas des faits à
 // vérifier (comme la phrase d'accroche du hero). À valider avec le
 // restaurant avant publication finale.
-const STAGES = [
-  { from: 0, to: 0.22, text: "Tout commence par un geste simple." },
-  { from: 0.22, to: 0.48, text: "La Méditerranée prend place, assiette après assiette." },
-  { from: 0.48, to: 0.76, text: "Fruits de mer, fraîcheur et générosité." },
-  { from: 0.76, to: 1, text: "Bienvenue à la table de Caicco Romano." },
+const STAGES: { from: number; to: number; text: string; position: StagePosition }[] = [
+  { from: 0, to: 0.22, text: "Tout commence par un geste simple.", position: "top" },
+  {
+    from: 0.22,
+    to: 0.48,
+    text: "La Méditerranée prend place, assiette après assiette.",
+    position: "right",
+  },
+  {
+    from: 0.48,
+    to: 0.76,
+    text: "Fruits de mer, fraîcheur et générosité.",
+    position: "left",
+  },
+  {
+    from: 0.76,
+    to: 1,
+    text: "Bienvenue à la table de Caicco Romano.",
+    position: "bottom",
+  },
 ];
+
+const POSITION_CLASSES: Record<StagePosition, string> = {
+  top: "top-20 sm:top-24 inset-x-0 flex justify-center text-center px-8",
+  bottom: "bottom-10 sm:bottom-14 inset-x-0 flex justify-center text-center px-8",
+  right:
+    "right-5 sm:right-12 top-1/2 -translate-y-1/2 max-w-[180px] sm:max-w-xs text-right",
+  left:
+    "left-5 sm:left-12 top-1/2 -translate-y-1/2 max-w-[180px] sm:max-w-xs text-left",
+};
 
 export default function ScrollPlateAnimation() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -129,6 +159,8 @@ export default function ScrollPlateAnimation() {
     return () => unsubscribe();
   }, [scrollYProgress]);
 
+  const stage = STAGES[stageIndex];
+
   return (
     <section
       ref={sectionRef}
@@ -136,53 +168,74 @@ export default function ScrollPlateAnimation() {
       className="relative h-[400vh]"
       aria-label="Animation de l'assiette signature"
     >
-      <div className="sticky top-0 h-[100svh] w-full flex items-center justify-center overflow-hidden">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-radial-fade opacity-70"
-        />
+      <div className="hairline absolute top-0 inset-x-0" aria-hidden="true" />
 
-        {framesReady ? (
-          <canvas
-            ref={canvasRef}
-            className="h-full w-full"
-            style={{ display: "block" }}
+      <div className="sticky top-0 h-[100svh] w-full flex items-center justify-center p-4 sm:p-8 md:p-12">
+        <span className="absolute top-8 sm:top-10 left-1/2 -translate-x-1/2 z-10 font-body text-[10px] sm:text-[11px] tracking-widest2 uppercase text-gold-400/70">
+          L&apos;expérience Caicco Romano
+        </span>
+
+        <div className="relative h-full w-full max-w-[1400px] overflow-hidden rounded-[28px] border border-ivory/[0.08] shadow-soft">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 bg-radial-fade opacity-70 z-[1]"
           />
-        ) : (
-          checked && <PlaceholderPlate />
-        )}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-gold-400/[0.06] z-[1]"
+          />
 
-        {framesReady && (
-          <>
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/25 to-transparent"
+          {framesReady ? (
+            <canvas
+              ref={canvasRef}
+              className="h-full w-full bg-charcoal-950"
+              style={{ display: "block" }}
             />
-            <div className="absolute inset-x-0 bottom-16 sm:bottom-20 px-6 flex justify-center">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={stageIndex}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -16 }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-display text-2xl sm:text-3xl md:text-4xl italic text-ivory/90 text-center text-balance max-w-xl"
-                >
-                  {STAGES[stageIndex].text}
-                </motion.p>
-              </AnimatePresence>
+          ) : (
+            <div className="h-full w-full flex items-center justify-center bg-charcoal-950">
+              {checked && <PlaceholderPlate />}
             </div>
-          </>
-        )}
+          )}
 
-        {!framesReady && (
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center px-6">
-            <p className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
-              Animation 3D au scroll — 121 frames à intégrer
-            </p>
-          </div>
-        )}
+          {framesReady && (
+            <>
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/10 to-transparent z-[2]"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-[20%] bg-gradient-to-b from-charcoal-950/70 via-charcoal-950/0 to-transparent z-[2]"
+              />
+
+              <div className="absolute inset-0 z-[3]">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={stageIndex}
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -14 }}
+                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                    className={`absolute font-display text-xl sm:text-2xl md:text-3xl italic text-ivory/90 text-balance leading-snug ${POSITION_CLASSES[stage.position]}`}
+                  >
+                    {stage.text}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+            </>
+          )}
+
+          {!framesReady && (
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center px-6 z-[3]">
+              <p className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
+                Animation 3D au scroll — 121 frames à intégrer
+              </p>
+            </div>
+          )}
+        </div>
       </div>
+
+      <div className="hairline absolute bottom-0 inset-x-0" aria-hidden="true" />
     </section>
   );
 }

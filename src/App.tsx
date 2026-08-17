@@ -131,10 +131,15 @@ function App() {
       <nav className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-stone-200/60">
         <div className="flex items-center justify-between px-6 py-4 lg:px-12">
           <a href="#top" className="flex items-center gap-3">
-            <div className="size-10 bg-navy grid place-items-center text-white font-serif italic text-xl">
+            <div className="size-10 shrink-0 bg-navy grid place-items-center text-white font-serif italic text-xl">
               Z
             </div>
-            <span className="font-serif text-2xl tracking-tight uppercase">Zodiac</span>
+            <span className="flex flex-col leading-none">
+              <span className="font-serif text-2xl tracking-tight uppercase">Zodiac</span>
+              <span className="mt-0.5 text-[9px] font-semibold tracking-[0.2em] uppercase text-stone-500">
+                Hôtel &amp; Aqua Park
+              </span>
+            </span>
           </a>
           <div className="hidden gap-8 text-xs font-semibold uppercase tracking-widest lg:flex">
             {navItems.map((item) => (
@@ -199,7 +204,7 @@ function App() {
         <div className="absolute inset-0 bg-gradient-to-t from-navy/70 via-navy/20 to-navy/30" />
         <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center text-white">
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-gold mb-4">
-            Yasmine Hammamet · Tunisie
+            Hôtel &amp; Aqua Park · Yasmine Hammamet
           </span>
           <h1 className="max-w-5xl font-serif text-[clamp(2.75rem,7vw,7rem)] leading-[0.95] tracking-[-0.02em]">
             L'Art de Vivre à <span className="italic">Yasmine Hammamet</span>

@@ -68,11 +68,6 @@ export default function Gallery() {
             </motion.div>
           ))}
         </div>
-
-        <p className="mt-10 text-center font-body text-xs text-ivory/35 italic">
-          Photos publiques temporaires — à remplacer par les visuels officiels du
-          restaurant.
-        </p>
       </div>
     </section>
   );

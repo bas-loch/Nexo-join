@@ -1,6 +1,6 @@
 import Reveal from "./ui/Reveal";
 import SectionHeading from "./ui/SectionHeading";
-import { about } from "@/lib/restaurant-data";
+import { about, ratings } from "@/lib/restaurant-data";
 
 export default function About() {
   return (
@@ -21,6 +21,21 @@ export default function About() {
                 </p>
               </Reveal>
             ))}
+
+            <Reveal delay={0.24}>
+              <div className="mt-4 flex flex-wrap items-center gap-x-10 gap-y-4 border-t border-ivory/10 pt-6">
+                {ratings.map((r) => (
+                  <div key={r.source} className="flex items-baseline gap-2">
+                    <span className="font-display text-2xl text-gold-300">
+                      {r.score}
+                    </span>
+                    <span className="font-body text-xs text-ivory/45">
+                      {r.source} · {r.reviews}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-px bg-ivory/[0.06]">

@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import ScrollPlateAnimation from "@/components/ScrollPlateAnimation";
+import SignatureDish from "@/components/SignatureDish";
 import About from "@/components/About";
 import Specialties from "@/components/Specialties";
 import Menu from "@/components/Menu";
@@ -16,7 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <ScrollPlateAnimation />
+        <SignatureDish />
         <About />
         <Specialties />
         <Menu />

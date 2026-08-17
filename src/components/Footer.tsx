@@ -63,12 +63,9 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl mt-14 pt-8 border-t border-ivory/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl mt-14 pt-8 border-t border-ivory/[0.06]">
         <p className="font-body text-xs text-ivory/30">
           © {new Date().getFullYear()} {restaurant.name} — Tous droits réservés.
-        </p>
-        <p className="font-body text-xs text-ivory/25 italic">
-          Réseaux sociaux officiels à confirmer.
         </p>
       </div>
     </footer>

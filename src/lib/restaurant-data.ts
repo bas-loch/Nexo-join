@@ -32,12 +32,13 @@ export const contact = {
     verified: false,
   },
   hours: {
-    // Trouvé sur une seule source secondaire — à confirmer avec le restaurant.
-    display: "09h00 – 02h00 (à confirmer)",
+    // Horaires précis non confirmés par une source fiable : on évite
+    // d'afficher un créneau deviné et on renvoie vers un contact direct.
+    display: "Nous contacter pour les horaires",
     verified: false,
   },
   googleMaps: {
-    href: "https://www.google.com/maps/search/?api=1&query=Caicco+Romano+Medina+Yasmine+Hammamet+Tunisie",
+    href: "https://www.google.com/maps/search/?api=1&query=Caicco+Romano+4+Rue+des+Elephants+Medina+Yasmine+Hammamet+Tunisie",
     verified: false,
   },
   social: {
@@ -47,6 +48,14 @@ export const contact = {
     instagram: null as string | null,
   },
 };
+
+// Notes relevées sur les plateformes d'avis publiques au moment de la
+// construction du site. Elles évoluent en continu — à rafraîchir
+// périodiquement plutôt que traitées comme définitives.
+export const ratings = [
+  { source: "TripAdvisor", score: "4.3/5", reviews: "63 avis" },
+  { source: "RestaurantGuru", score: "4/5", reviews: "199 avis" },
+];
 
 export const about = {
   paragraphs: [

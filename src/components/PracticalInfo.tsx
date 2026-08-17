@@ -66,10 +66,6 @@ export default function PracticalInfo() {
             </div>
           </Reveal>
         </div>
-
-        <p className="mt-10 font-body text-xs text-ivory/35 italic">
-          Horaires indicatifs à confirmer directement auprès du restaurant.
-        </p>
       </div>
     </section>
   );

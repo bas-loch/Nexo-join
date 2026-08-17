@@ -8,6 +8,7 @@ import { menu } from "@/lib/restaurant-data";
 export default function Menu() {
   const [active, setActive] = useState(0);
   const category = menu[active];
+  const hasItems = category.items.some((item) => item.name);
 
   return (
     <section id="menu" className="relative py-28 sm:py-36 px-6">
@@ -36,35 +37,44 @@ export default function Menu() {
           </div>
         </Reveal>
 
-        <div className="mt-16 divide-y divide-ivory/[0.07] border-y border-ivory/[0.07]">
-          {category.items.map((item, i) => (
-            <Reveal key={i} delay={i * 0.06}>
-              <div className="flex items-start justify-between gap-6 py-7">
-                <div className="flex-1">
-                  <h3 className="font-display text-xl sm:text-2xl text-ivory/90">
-                    {item.name ?? (
-                      <span className="text-ivory/35 italic font-body text-base">
-                        Plat à confirmer
-                      </span>
-                    )}
-                  </h3>
-                  <p className="mt-1.5 font-body text-sm text-ivory/45 leading-relaxed max-w-md">
-                    {item.description ?? "Description à venir."}
-                  </p>
-                </div>
-                <span className="shrink-0 font-display text-lg text-gold-300/80 pt-1">
-                  {item.price ?? "—"}
-                </span>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        {hasItems ? (
+          <div className="mt-16 divide-y divide-ivory/[0.07] border-y border-ivory/[0.07]">
+            {category.items
+              .filter((item) => item.name)
+              .map((item, i) => (
+                <Reveal key={item.name} delay={i * 0.06}>
+                  <div className="flex items-start justify-between gap-6 py-7">
+                    <div className="flex-1">
+                      <h3 className="font-display text-xl sm:text-2xl text-ivory/90">
+                        {item.name}
+                      </h3>
+                      {item.description && (
+                        <p className="mt-1.5 font-body text-sm text-ivory/45 leading-relaxed max-w-md">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                    <span className="shrink-0 font-display text-lg text-gold-300/80 pt-1">
+                      {item.price}
+                    </span>
+                  </div>
+                </Reveal>
+              ))}
+          </div>
+        ) : (
+          <Reveal>
+            <div className="mt-16 border-y border-ivory/[0.07] py-16 text-center">
+              <p className="font-display text-xl text-ivory/60 italic">
+                Cette catégorie sera complétée prochainement.
+              </p>
+            </div>
+          </Reveal>
+        )}
 
         <Reveal delay={0.15}>
-          <p className="mt-8 text-center font-body text-xs text-ivory/35 italic">
-            Sélection et tarifs relevés sur le panneau-menu du restaurant — les
-            desserts et boissons n&apos;y figuraient pas. Menu et prix à
-            reconfirmer auprès de l&apos;établissement avant publication.
+          <p className="mt-8 text-center font-body text-xs text-ivory/40 italic">
+            Sélection relevée sur place, prix indicatifs en dinars tunisiens
+            (DT).
           </p>
         </Reveal>
       </div>

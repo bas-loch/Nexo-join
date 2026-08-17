@@ -22,8 +22,6 @@ import outdoorPool from "@/assets/zodiac/piscine-exterieure.webp";
 import kidsClub from "@/assets/zodiac/club-enfants.webp";
 import eveningShow from "@/assets/zodiac/animation-soiree.webp";
 
-import { Placeholder } from "@/components/Placeholder";
-
 const navItems = [
   { href: "#hotel", label: "L'Hôtel" },
   { href: "#chambres", label: "Chambres" },
@@ -454,7 +452,7 @@ function App() {
         </div>
 
         <div className="grid grid-cols-12 gap-4 md:gap-6">
-          <div className="col-span-12 md:col-span-8 aspect-[16/10] overflow-hidden">
+          <div className="col-span-12 md:col-span-8 aspect-[4/3] md:aspect-[16/10] overflow-hidden">
             <img
               src={outdoorPool}
               alt="Piscines extérieures de l'Hôtel Zodiac"
@@ -462,19 +460,13 @@ function App() {
               className="h-full w-full object-cover hover:scale-105 transition-transform duration-700"
             />
           </div>
-          <div className="col-span-12 md:col-span-4 aspect-[4/5] md:aspect-auto overflow-hidden">
+          <div className="col-span-12 md:col-span-4 aspect-[4/3] md:aspect-auto overflow-hidden">
             <img
               src={loungeSalon}
               alt="Salon de repos du spa"
               loading="lazy"
               className="h-full w-full object-cover hover:scale-105 transition-transform duration-700"
             />
-          </div>
-          <div className="col-span-6 md:col-span-6 aspect-[16/10] overflow-hidden">
-            <Placeholder label="spa-hammam.jpg" />
-          </div>
-          <div className="col-span-6 md:col-span-6 aspect-[16/10] overflow-hidden">
-            <Placeholder label="spa-massage.jpg" />
           </div>
         </div>
       </section>

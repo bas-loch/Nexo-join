@@ -54,9 +54,6 @@ export default function LocationSection() {
               <p className="font-display text-lg text-ivory/90">
                 Médina Yasmine Hammamet
               </p>
-              <p className="font-body text-xs tracking-widest2 uppercase text-ivory/40">
-                {t.location.mapSubtitle}
-              </p>
             </div>
           </div>
         </Reveal>

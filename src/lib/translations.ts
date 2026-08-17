@@ -75,7 +75,6 @@ type Dict = {
   location: {
     eyebrow: string;
     title: string;
-    mapSubtitle: string;
     button: string;
   };
   reservation: {
@@ -199,7 +198,6 @@ export const translations: Record<Locale, Dict> = {
     location: {
       eyebrow: "Localisation",
       title: "Au cœur de la médina",
-      mapSubtitle: "Carte interactive à intégrer",
       button: "Ouvrir dans Google Maps",
     },
     reservation: {
@@ -318,7 +316,6 @@ export const translations: Record<Locale, Dict> = {
     location: {
       eyebrow: "Location",
       title: "In the heart of the medina",
-      mapSubtitle: "Interactive map coming soon",
       button: "Open in Google Maps",
     },
     reservation: {
@@ -437,7 +434,6 @@ export const translations: Record<Locale, Dict> = {
     location: {
       eyebrow: "Расположение",
       title: "В самом сердце медины",
-      mapSubtitle: "Интерактивная карта скоро появится",
       button: "Открыть в Google Картах",
     },
     reservation: {
@@ -556,7 +552,6 @@ export const translations: Record<Locale, Dict> = {
     location: {
       eyebrow: "Standort",
       title: "Im Herzen der Medina",
-      mapSubtitle: "Interaktive Karte folgt in Kürze",
       button: "In Google Maps öffnen",
     },
     reservation: {

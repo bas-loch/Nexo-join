@@ -1,19 +1,20 @@
+"use client";
+
 import Reveal from "./ui/Reveal";
 import SectionHeading from "./ui/SectionHeading";
 import Button from "./ui/Button";
 import { contact, restaurant } from "@/lib/restaurant-data";
+import { useLanguage } from "./LanguageProvider";
 
 export default function LocationSection() {
+  const { t } = useLanguage();
+
   return (
     <section id="localisation" className="relative py-28 sm:py-36 px-6">
       <div className="mx-auto max-w-7xl grid lg:grid-cols-2 gap-14 items-center">
         <Reveal>
           <div className="flex flex-col gap-8">
-            <SectionHeading
-              eyebrow="Localisation"
-              title="Au cœur de la médina"
-              align="left"
-            />
+            <SectionHeading eyebrow={t.location.eyebrow} title={t.location.title} align="left" />
             <div>
               <p className="font-display text-2xl sm:text-3xl text-ivory">
                 {restaurant.name}
@@ -31,7 +32,7 @@ export default function LocationSection() {
               variant="primary"
               className="w-fit"
             >
-              Ouvrir dans Google Maps
+              {t.location.button}
             </Button>
           </div>
         </Reveal>
@@ -54,7 +55,7 @@ export default function LocationSection() {
                 Médina Yasmine Hammamet
               </p>
               <p className="font-body text-xs tracking-widest2 uppercase text-ivory/40">
-                Carte interactive à intégrer
+                {t.location.mapSubtitle}
               </p>
             </div>
           </div>

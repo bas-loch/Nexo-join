@@ -1,8 +1,13 @@
+"use client";
+
 import Reveal from "./ui/Reveal";
 import Button from "./ui/Button";
 import { contact } from "@/lib/restaurant-data";
+import { useLanguage } from "./LanguageProvider";
 
 export default function ReservationCTA() {
+  const { t } = useLanguage();
+
   return (
     <section id="reservation" className="relative py-32 sm:py-44 px-6 overflow-hidden">
       <div
@@ -17,27 +22,26 @@ export default function ReservationCTA() {
       <div className="relative mx-auto max-w-3xl flex flex-col items-center text-center gap-8">
         <Reveal>
           <span className="font-body text-[11px] tracking-widest2 uppercase text-gold-400/80">
-            Réservation
+            {t.reservation.eyebrow}
           </span>
         </Reveal>
 
         <Reveal delay={0.1}>
           <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-medium text-ivory text-balance leading-[1.05]">
-            Votre table vous attend
+            {t.reservation.title}
           </h2>
         </Reveal>
 
         <Reveal delay={0.2}>
           <p className="font-body text-base sm:text-lg text-ivory/55 max-w-xl leading-relaxed text-balance">
-            Réservez votre moment au bord de la Méditerranée. Notre équipe se
-            fera un plaisir de vous accueillir à Caicco Romano.
+            {t.reservation.description}
           </p>
         </Reveal>
 
         <Reveal delay={0.3}>
           <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
             <Button href={contact.phone.href} variant="primary">
-              Réserver une table
+              {t.reservation.buttons.reserve}
             </Button>
             <Button
               href={contact.whatsapp.href}
@@ -45,7 +49,7 @@ export default function ReservationCTA() {
               rel="noopener noreferrer"
               variant="ghost"
             >
-              Écrire sur WhatsApp
+              {t.reservation.buttons.whatsapp}
             </Button>
           </div>
         </Reveal>

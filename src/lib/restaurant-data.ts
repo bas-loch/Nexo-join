@@ -5,12 +5,11 @@
 // construction du site. Les champs marqués `verified: false` doivent être
 // confirmés directement auprès du restaurant avant publication.
 
+// Le nom est un fait, pas du texte éditorial : il reste ici et n'est pas
+// traduit. Tagline, accroche et texte de présentation (multilingues) vivent
+// dans src/lib/translations.ts.
 export const restaurant = {
   name: "Caicco Romano",
-  tagline: "Restaurant • Seafood • Mediterranean Cuisine",
-  // Proposition éditoriale temporaire — aucun slogan officiel confirmé.
-  editorialLine: "Une expérience méditerranéenne entre terre et mer.",
-  cuisineTypes: ["Italienne", "Tunisienne", "Méditerranéenne", "Fruits de mer"],
 };
 
 export const contact = {
@@ -53,50 +52,47 @@ export const contact = {
 // construction du site. Elles évoluent en continu — à rafraîchir
 // périodiquement plutôt que traitées comme définitives.
 export const ratings = [
-  { source: "TripAdvisor", score: "4.3/5", reviews: "63 avis" },
-  { source: "RestaurantGuru", score: "4/5", reviews: "199 avis" },
+  { source: "TripAdvisor", score: "4.3/5", count: 63 },
+  { source: "RestaurantGuru", score: "4/5", count: 199 },
 ];
 
-export const about = {
-  paragraphs: [
-    "Niché au cœur de la Médina Yasmine Hammamet, Caicco Romano invite à une parenthèse gourmande où la Méditerranée s'invite à chaque assiette. Ici, la cuisine italienne dialogue avec les saveurs tunisiennes dans une ambiance chaleureuse et raffinée.",
-    "Fruits de mer, poissons et produits de saison sont travaillés avec attention pour révéler la fraîcheur et l'authenticité des recettes méditerranéennes, entre tradition et élégance contemporaine.",
-    "Un cadre pensé pour prendre le temps — celui d'un déjeuner en terrasse, d'un dîner entre proches ou d'une soirée au bord de la Méditerranée.",
-  ],
-  highlights: [
-    { label: "Fraîcheur", description: "Produits de la mer sélectionnés avec exigence" },
-    { label: "Méditerranée", description: "Cuisine italienne et tunisienne réunies" },
-    { label: "Ambiance", description: "Un cadre élégant au cœur de la médina" },
-  ],
-};
-
 export type SpecialtyCategory = {
+  id: string;
   title: string;
   description: string;
 };
 
+// title/description ci-dessous sont le contenu par défaut (français) —
+// affiché tel quel si le sélecteur de langue n'est pas utilisé. Les
+// traductions vivent dans src/lib/translations.ts, indexées par `id`.
 export const specialties: SpecialtyCategory[] = [
   {
+    id: "seafood",
     title: "Fruits de mer",
     description: "Crevettes, calamars et coquillages sublimés avec fraîcheur.",
   },
   {
+    id: "fish",
     title: "Poissons",
     description: "Poissons méditerranéens préparés selon l'arrivage du jour.",
   },
   {
+    id: "pasta",
     title: "Pâtes",
     description: "Pâtes fraîches, risottos et recettes italiennes de caractère.",
   },
   {
+    id: "mediterranean",
     title: "Cuisine méditerranéenne",
     description: "Une palette de saveurs entre Italie et Tunisie.",
   },
   {
+    id: "signature",
     title: "Spécialités du restaurant",
     description: "Pizzas au feu de bois et créations signature de la maison.",
   },
   {
+    id: "desserts",
     title: "Desserts",
     description: "Notes sucrées pour clore le repas en douceur.",
   },
@@ -109,6 +105,7 @@ export type MenuItem = {
 };
 
 export type MenuCategory = {
+  id: string;
   title: string;
   items: MenuItem[];
 };
@@ -118,8 +115,13 @@ export type MenuCategory = {
 // données sourcées et non inventées — mais un menu papier peut évoluer :
 // à reconfirmer auprès du restaurant avant publication définitive.
 // Desserts et boissons n'apparaissaient pas sur le panneau photographié.
+// Les noms de plats et prix restent identiques dans toutes les langues
+// (noms italiens/tunisiens déjà internationaux) ; seuls le libellé de
+// catégorie et les courtes descriptions sont traduits, via `id` dans
+// src/lib/translations.ts.
 export const menu: MenuCategory[] = [
   {
+    id: "entrees",
     title: "Entrées",
     items: [
       { name: "Carpaccio de bœuf", description: null, price: "13 DT" },
@@ -130,6 +132,7 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
+    id: "poissons",
     title: "Poissons",
     items: [
       {
@@ -143,6 +146,7 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
+    id: "fruitsDeMer",
     title: "Fruits de mer",
     items: [
       { name: "Gambas grillées", description: null, price: "34 DT" },
@@ -161,6 +165,7 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
+    id: "pates",
     title: "Pâtes",
     items: [
       { name: "Spaghetti aglio, olio, peperoncino", description: null, price: "12 DT" },
@@ -171,6 +176,7 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
+    id: "platsPrincipaux",
     title: "Plats principaux",
     items: [
       { name: "Steak de bœuf grillé", description: null, price: "26 DT" },
@@ -181,6 +187,7 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
+    id: "desserts",
     title: "Desserts",
     items: [
       { name: null, description: null, price: null },
@@ -188,6 +195,7 @@ export const menu: MenuCategory[] = [
     ],
   },
   {
+    id: "boissons",
     title: "Boissons",
     items: [
       { name: null, description: null, price: null },

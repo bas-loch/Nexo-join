@@ -2,9 +2,10 @@
 
 import { motion } from "framer-motion";
 import Button from "./ui/Button";
-import { restaurant } from "@/lib/restaurant-data";
+import { useLanguage } from "./LanguageProvider";
 
 export default function Hero() {
+  const { t } = useLanguage();
   return (
     <section
       id="top"
@@ -25,7 +26,7 @@ export default function Hero() {
         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         className="font-body text-[11px] sm:text-xs tracking-widest2 uppercase text-gold-300/80 mb-8"
       >
-        Médina Yasmine Hammamet · Tunisie
+        {t.hero.kicker}
       </motion.span>
 
       <motion.h1
@@ -45,7 +46,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
         className="mt-8 font-body text-[11px] sm:text-sm tracking-[0.3em] uppercase text-ivory/55"
       >
-        {restaurant.tagline}
+        {t.hero.tagline}
       </motion.p>
 
       <motion.p
@@ -54,7 +55,7 @@ export default function Hero() {
         transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="mt-6 max-w-md text-center font-display text-xl sm:text-2xl italic text-ivory/75 text-balance"
       >
-        {restaurant.editorialLine}
+        {t.hero.editorial}
       </motion.p>
 
       <motion.div
@@ -64,10 +65,10 @@ export default function Hero() {
         className="mt-14 flex flex-col sm:flex-row items-center gap-4"
       >
         <Button href="#menu" variant="ghost">
-          Voir le menu
+          {t.hero.ctaMenu}
         </Button>
         <Button href="#reservation" variant="primary">
-          Réserver une table
+          {t.hero.ctaReserve}
         </Button>
       </motion.div>
 
@@ -78,7 +79,7 @@ export default function Hero() {
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
       >
         <span className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
-          Découvrir
+          {t.hero.scrollHint}
         </span>
         <span className="w-px h-10 bg-gradient-to-b from-gold-400/60 to-transparent animate-shimmer" />
       </motion.div>

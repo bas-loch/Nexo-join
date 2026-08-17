@@ -15,14 +15,24 @@ import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion"
  *    pilotée par la progression du scroll dans la section, avec un texte
  *    éditorial qui se déplace autour de l'assiette par étapes.
  *
- * L'ensemble est présenté dans un cadre ("vitrine") avec des liserés en
- * haut et en bas, pour marquer clairement la démarcation entre cette
- * séquence et le reste du site.
+ * Plein format (pas de cadre qui réduit la taille) : seuls deux liserés en
+ * haut et en bas marquent la démarcation avec le reste du site.
  */
 
 const TOTAL_FRAMES = 121;
 const FRAME_PATH = (index: number) =>
   `/animation/frames/frame-${String(index).padStart(3, "0")}.jpg`;
+
+// Hauteur totale de la section de scroll, en multiples de la hauteur
+// d'écran. Réduite par rapport à une première version jugée trop longue
+// (impression de "pause" en fin de course).
+const SCROLL_LENGTH_VH = 340;
+
+// Mapping non-linéaire scroll -> frame : avance lentement au début (le
+// remplissage de l'assiette reste lisible, pas "trop vite") puis
+// accélère en fin de séquence pour ne pas s'attarder sur les dernières
+// frames, presque identiques les unes aux autres (effet de "pause").
+const FRAME_EASE = 1.45;
 
 type StagePosition = "top" | "right" | "left" | "bottom";
 
@@ -52,12 +62,12 @@ const STAGES: { from: number; to: number; text: string; position: StagePosition 
 ];
 
 const POSITION_CLASSES: Record<StagePosition, string> = {
-  top: "top-20 sm:top-24 inset-x-0 flex justify-center text-center px-8",
-  bottom: "bottom-10 sm:bottom-14 inset-x-0 flex justify-center text-center px-8",
+  top: "top-24 sm:top-28 inset-x-0 flex justify-center text-center px-8",
+  bottom: "bottom-12 sm:bottom-16 inset-x-0 flex justify-center text-center px-8",
   right:
-    "right-5 sm:right-12 top-1/2 -translate-y-1/2 max-w-[180px] sm:max-w-xs text-right",
+    "right-6 sm:right-16 top-1/2 -translate-y-1/2 max-w-[180px] sm:max-w-xs text-right",
   left:
-    "left-5 sm:left-12 top-1/2 -translate-y-1/2 max-w-[180px] sm:max-w-xs text-left",
+    "left-6 sm:left-16 top-1/2 -translate-y-1/2 max-w-[180px] sm:max-w-xs text-left",
 };
 
 export default function ScrollPlateAnimation() {
@@ -73,7 +83,10 @@ export default function ScrollPlateAnimation() {
     offset: ["start start", "end end"],
   });
 
-  const frameIndex = useTransform(scrollYProgress, [0, 1], [1, TOTAL_FRAMES]);
+  const frameIndex = useTransform(scrollYProgress, (p) => {
+    const clamped = Math.min(Math.max(p, 0), 1);
+    return 1 + (TOTAL_FRAMES - 1) * Math.pow(clamped, FRAME_EASE);
+  });
 
   // Détecte la présence des frames sans jamais générer d'animation factice.
   useEffect(() => {
@@ -165,77 +178,72 @@ export default function ScrollPlateAnimation() {
     <section
       ref={sectionRef}
       id="animation"
-      className="relative h-[400vh]"
+      className="relative"
+      style={{ height: `${SCROLL_LENGTH_VH}vh` }}
       aria-label="Animation de l'assiette signature"
     >
-      <div className="hairline absolute top-0 inset-x-0" aria-hidden="true" />
+      <div className="hairline absolute top-0 inset-x-0 z-10" aria-hidden="true" />
 
-      <div className="sticky top-0 h-[100svh] w-full flex items-center justify-center p-4 sm:p-8 md:p-12">
+      <div className="sticky top-0 h-[100svh] w-full overflow-hidden bg-charcoal-950">
         <span className="absolute top-8 sm:top-10 left-1/2 -translate-x-1/2 z-10 font-body text-[10px] sm:text-[11px] tracking-widest2 uppercase text-gold-400/70">
           L&apos;expérience Caicco Romano
         </span>
 
-        <div className="relative h-full w-full max-w-[1400px] overflow-hidden rounded-[28px] border border-ivory/[0.08] shadow-soft">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-radial-fade opacity-70 z-[1]"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-gold-400/[0.06] z-[1]"
-          />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-radial-fade opacity-70 z-[1]"
+        />
 
-          {framesReady ? (
-            <canvas
-              ref={canvasRef}
-              className="h-full w-full bg-charcoal-950"
-              style={{ display: "block" }}
+        {framesReady ? (
+          <canvas
+            ref={canvasRef}
+            className="h-full w-full"
+            style={{ display: "block" }}
+          />
+        ) : (
+          <div className="h-full w-full flex items-center justify-center">
+            {checked && <PlaceholderPlate />}
+          </div>
+        )}
+
+        {framesReady && (
+          <>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/10 to-transparent z-[2]"
             />
-          ) : (
-            <div className="h-full w-full flex items-center justify-center bg-charcoal-950">
-              {checked && <PlaceholderPlate />}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-[20%] bg-gradient-to-b from-charcoal-950/70 via-charcoal-950/0 to-transparent z-[2]"
+            />
+
+            <div className="absolute inset-0 z-[3]">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={stageIndex}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  className={`absolute font-display text-xl sm:text-2xl md:text-3xl italic text-ivory/90 text-balance leading-snug ${POSITION_CLASSES[stage.position]}`}
+                >
+                  {stage.text}
+                </motion.p>
+              </AnimatePresence>
             </div>
-          )}
+          </>
+        )}
 
-          {framesReady && (
-            <>
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-[35%] bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/10 to-transparent z-[2]"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-[20%] bg-gradient-to-b from-charcoal-950/70 via-charcoal-950/0 to-transparent z-[2]"
-              />
-
-              <div className="absolute inset-0 z-[3]">
-                <AnimatePresence mode="wait">
-                  <motion.p
-                    key={stageIndex}
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -14 }}
-                    transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className={`absolute font-display text-xl sm:text-2xl md:text-3xl italic text-ivory/90 text-balance leading-snug ${POSITION_CLASSES[stage.position]}`}
-                  >
-                    {stage.text}
-                  </motion.p>
-                </AnimatePresence>
-              </div>
-            </>
-          )}
-
-          {!framesReady && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center px-6 z-[3]">
-              <p className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
-                Animation 3D au scroll — 121 frames à intégrer
-              </p>
-            </div>
-          )}
-        </div>
+        {!framesReady && (
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center px-6 z-[3]">
+            <p className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
+              Animation 3D au scroll — 121 frames à intégrer
+            </p>
+          </div>
+        )}
       </div>
 
-      <div className="hairline absolute bottom-0 inset-x-0" aria-hidden="true" />
+      <div className="hairline absolute bottom-0 inset-x-0 z-10" aria-hidden="true" />
     </section>
   );
 }

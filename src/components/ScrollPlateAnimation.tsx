@@ -1,27 +1,34 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useScroll, useTransform, motion, AnimatePresence } from "framer-motion";
 
 /**
- * Composant d'animation scroll-driven "assiette vide → assiette de fruits
- * de mer" (121 frames JPG).
+ * Animation scroll-driven "assiette vide → assiette de fruits de mer"
+ * (121 frames JPG), pièce centrale de la page juste après le hero.
  *
- * Les frames ne sont PAS encore fournies. Ce composant :
- *  - prépare la structure (section sticky, canvas, mapping scroll → frame)
+ * Le composant :
  *  - détecte automatiquement si les frames sont présentes dans
  *    /public/animation/frames/frame-001.jpg … frame-121.jpg
  *  - si absentes : affiche un état placeholder élégant, sans rien inventer
  *  - si présentes : dessine la frame correspondante sur un <canvas>,
- *    pilotée par la progression du scroll dans la section.
- *
- * Aucune intégration des frames n'est faite ici — seule la structure est
- * prête à les recevoir.
+ *    pilotée par la progression du scroll dans la section, avec un texte
+ *    éditorial qui se révèle par étapes au fil du défilement.
  */
 
 const TOTAL_FRAMES = 121;
 const FRAME_PATH = (index: number) =>
   `/animation/frames/frame-${String(index).padStart(3, "0")}.jpg`;
+
+// Texte éditorial d'accompagnement — propositions de ton, pas des faits à
+// vérifier (comme la phrase d'accroche du hero). À valider avec le
+// restaurant avant publication finale.
+const STAGES = [
+  { from: 0, to: 0.22, text: "Tout commence par un geste simple." },
+  { from: 0.22, to: 0.48, text: "La Méditerranée prend place, assiette après assiette." },
+  { from: 0.48, to: 0.76, text: "Fruits de mer, fraîcheur et générosité." },
+  { from: 0.76, to: 1, text: "Bienvenue à la table de Caicco Romano." },
+];
 
 export default function ScrollPlateAnimation() {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -29,6 +36,7 @@ export default function ScrollPlateAnimation() {
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const [framesReady, setFramesReady] = useState(false);
   const [checked, setChecked] = useState(false);
+  const [stageIndex, setStageIndex] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -87,8 +95,13 @@ export default function ScrollPlateAnimation() {
         canvas.height = clientHeight * dpr;
       }
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
 
-      const scale = Math.max(clientWidth / img.width, clientHeight / img.height);
+      // "contain" plutôt que "cover" : les frames ont un fond noir qui se
+      // fond dans le thème du site, donc on préserve l'assiette entière au
+      // lieu de recadrer/zoomer (particulièrement important en portrait).
+      const scale = Math.min(clientWidth / img.width, clientHeight / img.height);
       const w = img.width * scale;
       const h = img.height * scale;
       const x = (clientWidth - w) / 2;
@@ -105,6 +118,16 @@ export default function ScrollPlateAnimation() {
     draw(1);
     return () => unsubscribe();
   }, [framesReady, frameIndex]);
+
+  // Fait avancer le texte éditorial par étapes au fil du scroll.
+  useEffect(() => {
+    const unsubscribe = scrollYProgress.on("change", (progress) => {
+      const next = STAGES.findIndex((s) => progress >= s.from && progress < s.to);
+      const resolved = next === -1 ? STAGES.length - 1 : next;
+      setStageIndex((current) => (current === resolved ? current : resolved));
+    });
+    return () => unsubscribe();
+  }, [scrollYProgress]);
 
   return (
     <section
@@ -129,11 +152,36 @@ export default function ScrollPlateAnimation() {
           checked && <PlaceholderPlate />
         )}
 
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center px-6">
-          <p className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
-            Animation 3D au scroll — 121 frames à intégrer
-          </p>
-        </div>
+        {framesReady && (
+          <>
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-charcoal-950/90 via-charcoal-950/25 to-transparent"
+            />
+            <div className="absolute inset-x-0 bottom-16 sm:bottom-20 px-6 flex justify-center">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={stageIndex}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -16 }}
+                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-display text-2xl sm:text-3xl md:text-4xl italic text-ivory/90 text-center text-balance max-w-xl"
+                >
+                  {STAGES[stageIndex].text}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+          </>
+        )}
+
+        {!framesReady && (
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 text-center px-6">
+            <p className="font-body text-[10px] tracking-widest2 uppercase text-ivory/35">
+              Animation 3D au scroll — 121 frames à intégrer
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

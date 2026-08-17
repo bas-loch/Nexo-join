@@ -1,0 +1,71 @@
+{
+  "meta": {
+    "title": "Ben's Resto Café — Restaurant à Yasmine Hammamet",
+    "description": "Cuisine tunisienne et italienne à l'entrée de la zone touristique de Yasmine Hammamet. Terrasse, couscous, salades, pizzas. Ouvert de 7h00 à 23h30, 7j/7.",
+    "ogAlt": "Terrasse de Ben's Resto Café à Yasmine Hammamet"
+  },
+  "nav": {
+    "menu": "Carte",
+    "gallery": "Galerie",
+    "matchs": "Les matchs",
+    "reviews": "Avis",
+    "practical": "Infos pratiques",
+    "call": "Appeler",
+    "langSwitch": "English"
+  },
+  "hero": {
+    "eyebrow": "Yasmine Hammamet",
+    "title": "Ben's Resto Café",
+    "subtitle": "Cuisine tunisienne et italienne, à l'entrée de la zone touristique de Yasmine Hammamet.",
+    "hours": "Ouvert de 7h00 à 23h30, 7 jours sur 7",
+    "ratingLine": "sur 143 avis Google",
+    "ratingAsOf": "au 17 août 2026",
+    "callCta": "Appeler",
+    "whatsappCta": "Réserver sur WhatsApp"
+  },
+  "about": {
+    "title": "Chez Ben's",
+    "paragraph1": "Ben's Resto Café est une affaire de famille. Le patron est présent en salle, tous les jours. On y sert une cuisine tunisienne et italienne : couscous, salades, pizzas, calzones, pâtes, viandes et fruits de mer. À l'arrivée, thé, harissa et thon sont offerts en mise en bouche.",
+    "paragraph2": "La terrasse est grande, les tables sont espacées. On y croise aussi les chats du quartier, habitués des lieux.",
+    "paragraph3": "Le restaurant ouvre à 7h00. Le matin, c'est café et petit-déjeuner. Ensuite, la cuisine tourne jusqu'au soir, 7 jours sur 7."
+  },
+  "menu": {
+    "title": "La carte",
+    "intro": "Cuisine tunisienne et italienne : couscous, salades, pizzas, calzones, pâtes, viandes, fruits de mer.",
+    "categoriesTitle": "Ce que propose la maison",
+    "signatureTitle": "Ce que les clients commandent le plus",
+    "pendingNote": "La carte complète, avec les prix, sera ajoutée ici prochainement.",
+    "priceNote": "Prix : voir sur place"
+  },
+  "gallery": {
+    "title": "En images"
+  },
+  "matchs": {
+    "title": "Les matchs chez Ben's",
+    "paragraph": "À l'intérieur, un grand écran diffuse les matchs. Les habitués s'y installent en soirée, un plat ou un café à la table."
+  },
+  "reviews": {
+    "title": "Avis Google",
+    "ratingLine": "sur 143 avis Google",
+    "asOf": "Note au 17 août 2026",
+    "cta": "Voir la fiche Google"
+  },
+  "practical": {
+    "title": "Infos pratiques",
+    "addressLabel": "Adresse",
+    "phoneLabel": "Téléphone",
+    "hoursLabel": "Horaires",
+    "hoursValue": "7h00 – 23h30, 7 jours sur 7",
+    "directionsCta": "Itinéraire",
+    "callCta": "Appeler",
+    "whatsappCta": "WhatsApp"
+  },
+  "cta": {
+    "reserveWhatsapp": "Bonjour, je voudrais réserver une table chez Ben's Resto Café."
+  },
+  "footer": {
+    "tagline": "Cuisine tunisienne et italienne à Yasmine Hammamet.",
+    "rights": "Ben's Resto Café.",
+    "googleListing": "Fiche Google"
+  }
+}

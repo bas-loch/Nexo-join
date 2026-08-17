@@ -104,44 +104,71 @@ export type MenuCategory = {
   items: MenuItem[];
 };
 
-// Aucun plat ni prix précis n'a pu être vérifié à partir de sources
-// officielles. La structure ci-dessous prépare l'affichage du menu ;
-// chaque entrée doit être complétée avec les informations confirmées par
-// le restaurant avant publication.
+// Plats et prix relevés directement sur le panneau-menu affiché sur place
+// (photo fournie par l'utilisateur, en Dinars Tunisiens). Il s'agit donc de
+// données sourcées et non inventées — mais un menu papier peut évoluer :
+// à reconfirmer auprès du restaurant avant publication définitive.
+// Desserts et boissons n'apparaissaient pas sur le panneau photographié.
 export const menu: MenuCategory[] = [
   {
     title: "Entrées",
     items: [
-      { name: null, description: null, price: null },
-      { name: null, description: null, price: null },
+      { name: "Carpaccio de bœuf", description: null, price: "13 DT" },
+      { name: "Festival de tapas tunisienne", description: null, price: "14 DT" },
+      { name: "Calamars dorés", description: null, price: "16 DT" },
+      { name: "Cocktail de crevettes", description: null, price: "17 DT" },
+      { name: "Dialogue de fruits de mer sauté", description: null, price: "19 DT" },
     ],
   },
   {
     title: "Poissons",
     items: [
-      { name: null, description: null, price: null },
-      { name: null, description: null, price: null },
+      {
+        name: "Poisson du jour grillé selon arrivage",
+        description: "Dorade, loup, rouget… (100 g)",
+        price: "9.5 DT",
+      },
+      { name: "Dorade à la Sfaxienne", description: "(100 g)", price: "10 DT" },
+      { name: "Filet de loup sauce safranée", description: null, price: "29 DT" },
+      { name: "Grillade mixte de poisson", description: null, price: "32 DT" },
     ],
   },
   {
     title: "Fruits de mer",
     items: [
-      { name: null, description: null, price: null },
-      { name: null, description: null, price: null },
+      { name: "Gambas grillées", description: null, price: "34 DT" },
+      { name: "Seiche ou calamar grillé", description: null, price: "21 DT" },
+      {
+        name: "Assiette de délices de la mer",
+        description: "1 personne",
+        price: "35 DT",
+      },
+      {
+        name: "Symphonie de la mer",
+        description: "2 personnes",
+        price: "79 DT",
+      },
+      { name: "Langouste selon votre goût", description: "(100 g)", price: "19 DT" },
     ],
   },
   {
     title: "Pâtes",
     items: [
-      { name: null, description: null, price: null },
-      { name: null, description: null, price: null },
+      { name: "Spaghetti aglio, olio, peperoncino", description: null, price: "12 DT" },
+      { name: "Spaghetti carbonara", description: null, price: "15 DT" },
+      { name: "Spaghetti aux fruits de mer", description: null, price: "20 DT" },
+      { name: "Tagliatelle aux crevettes", description: null, price: "19 DT" },
+      { name: "Risotto aux fruits de mer", description: null, price: "20 DT" },
     ],
   },
   {
     title: "Plats principaux",
     items: [
-      { name: null, description: null, price: null },
-      { name: null, description: null, price: null },
+      { name: "Steak de bœuf grillé", description: null, price: "26 DT" },
+      { name: "Filet de bœuf à l'échalote", description: null, price: "34 DT" },
+      { name: "Poulet grillé", description: null, price: "16 DT" },
+      { name: "Marmite du pêcheur", description: null, price: "28 DT" },
+      { name: "Paëlla pêcheur", description: "1 personne", price: "29 DT" },
     ],
   },
   {

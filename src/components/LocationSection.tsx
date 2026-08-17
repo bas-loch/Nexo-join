@@ -38,22 +38,22 @@ export default function LocationSection() {
 
         <Reveal delay={0.15}>
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-ivory/10 bg-charcoal-900/40">
-            <div className="absolute inset-0 bg-gradient-to-br from-sea-600/20 via-charcoal-900 to-charcoal-950" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/gallery/facade.jpg"
+              alt="Façade de Caicco Romano, Médina Yasmine Hammamet"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
             <div
               aria-hidden
-              className="absolute inset-0 opacity-40"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(244,239,230,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(244,239,230,0.05) 1px, transparent 1px)",
-                backgroundSize: "36px 36px",
-              }}
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-charcoal-950/85 via-charcoal-950/10 to-transparent"
             />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center px-6">
-              <span className="w-3 h-3 rounded-full bg-gold-400 shadow-glow animate-shimmer" />
-              <p className="font-display text-lg text-ivory/80">
+            <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-2 text-center px-6 py-6">
+              <span className="w-2 h-2 rounded-full bg-gold-400 shadow-glow animate-shimmer" />
+              <p className="font-display text-lg text-ivory/90">
                 Médina Yasmine Hammamet
               </p>
-              <p className="font-body text-xs tracking-widest2 uppercase text-ivory/35">
+              <p className="font-body text-xs tracking-widest2 uppercase text-ivory/40">
                 Carte interactive à intégrer
               </p>
             </div>

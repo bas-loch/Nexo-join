@@ -15,7 +15,7 @@ export default function Menu() {
         <SectionHeading
           eyebrow="Le menu"
           title="Notre carte"
-          description="Plats et prix seront publiés dès leur confirmation par le restaurant."
+          description="Une sélection de la carte, relevée sur place — prix en dinars tunisiens."
         />
 
         <Reveal delay={0.1}>
@@ -62,8 +62,9 @@ export default function Menu() {
 
         <Reveal delay={0.15}>
           <p className="mt-8 text-center font-body text-xs text-ivory/35 italic">
-            La carte complète et les tarifs seront mis à jour après vérification
-            directe auprès du restaurant.
+            Sélection et tarifs relevés sur le panneau-menu du restaurant — les
+            desserts et boissons n&apos;y figuraient pas. Menu et prix à
+            reconfirmer auprès de l&apos;établissement avant publication.
           </p>
         </Reveal>
       </div>

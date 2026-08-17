@@ -19,8 +19,6 @@ Ouvrir [http://localhost:5173](http://localhost:5173).
 - `src/assets/zodiac/` — photos réelles de l'hôtel
 - `src/components/Placeholder.tsx` — repli visuel pour un emplacement sans
   photo (aucune banque d'images, voir CLAUDE.md)
-- `src/components/ui/` — composants shadcn/ui disponibles mais non utilisés
-  pour l'instant
 - `src/styles.css` — tokens de couleur/typographie (Tailwind v4, `@theme`)
 
 ## Build & déploiement
@@ -39,6 +37,7 @@ pas encore respectées et restent à traiter :
 
 - **i18n** : le site est en français uniquement, pas de FR/EN/DE.
 - **Animations** : micro-interactions en transition CSS (`transition-transform`),
-  pas encore migrées vers `motion`/GSAP.
+  pas migrées vers `motion`/GSAP (pas de dépendance d'animation dans ce stack
+  pour l'instant).
 - **Photos manquantes** : hammam et cabine de massage du spa n'ont pas encore
   de vraie photo (bloc de repli affiché à la place).

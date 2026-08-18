@@ -2,6 +2,7 @@
 
 import Reveal from "./ui/Reveal";
 import SectionHeading from "./ui/SectionHeading";
+import CountUp from "./ui/CountUp";
 import { restaurant, ratings } from "@/lib/restaurant-data";
 import { useLanguage } from "./LanguageProvider";
 
@@ -29,11 +30,13 @@ export default function About() {
 
             <Reveal delay={0.24}>
               <div className="mt-4 flex flex-wrap items-center gap-x-10 gap-y-4 border-t border-ivory/10 pt-6">
-                {ratings.map((r) => (
+                {ratings.map((r, i) => (
                   <div key={r.source} className="flex items-baseline gap-2">
-                    <span className="font-display text-2xl text-gold-300">
-                      {r.score}
-                    </span>
+                    <CountUp
+                      value={r.score}
+                      delay={0.15 + i * 0.15}
+                      className="font-display text-2xl text-gold-300 tabular-nums"
+                    />
                     <span className="font-body text-xs text-ivory/45">
                       {r.source} · {r.count} {t.about.reviewsWord}
                     </span>
@@ -46,7 +49,7 @@ export default function About() {
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 gap-px bg-ivory/[0.06]">
             {t.about.highlights.map((h, i) => (
               <Reveal key={h.label} delay={i * 0.1}>
-                <div className="bg-charcoal-900/40 px-8 py-8 h-full">
+                <div className="group bg-charcoal-900/40 px-8 py-8 h-full transition-colors duration-500 hover:bg-charcoal-900/70">
                   <span className="font-display text-3xl text-gold-300">
                     0{i + 1}
                   </span>
@@ -56,6 +59,7 @@ export default function About() {
                   <p className="mt-2 font-body text-sm text-ivory/50 leading-relaxed">
                     {h.description}
                   </p>
+                  <span className="mt-4 block h-px w-6 bg-gold-400/50 transition-all duration-500 group-hover:w-16 group-hover:opacity-90" />
                 </div>
               </Reveal>
             ))}

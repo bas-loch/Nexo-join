@@ -1,6 +1,8 @@
-import type { AnchorHTMLAttributes } from "react";
+"use client";
 
-type ButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+import { motion, type HTMLMotionProps } from "framer-motion";
+
+type ButtonProps = HTMLMotionProps<"a"> & {
   variant?: "primary" | "ghost";
 };
 
@@ -19,8 +21,13 @@ export default function Button({
       : "border border-ivory/25 text-ivory hover:border-gold-400/70 hover:text-gold-200";
 
   return (
-    <a className={`${base} ${styles} ${className}`} {...props}>
+    <motion.a
+      whileTap={{ scale: 0.94 }}
+      transition={{ duration: 0.15 }}
+      className={`${base} ${styles} ${className}`}
+      {...props}
+    >
       {children}
-    </a>
+    </motion.a>
   );
 }

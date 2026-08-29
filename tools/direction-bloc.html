@@ -1,0 +1,131 @@
+
+<!-- ============ SPEC : PALETTE + TYPO (page de direction) ============ -->
+<style>
+.spec{position:relative;background:var(--os);padding:0 0 clamp(3rem,7vw,6rem)}
+.spec__bandeau{
+  background:var(--rouge);color:var(--os-clair);
+  border-top:3px solid var(--encre);border-bottom:3px solid var(--encre);
+  padding:clamp(1.5rem,4vw,2.8rem) var(--marge);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:.4rem 1.2rem;
+}
+.spec__bandeau h2{
+  font-family:Anton,Impact,sans-serif;font-weight:400;margin:0;
+  font-size:clamp(2.4rem,8vw,6rem);line-height:.85;letter-spacing:-.02em;text-transform:uppercase;
+}
+.spec__bandeau p{margin:0;max-width:42ch;font-size:.9rem;line-height:1.45}
+.spec [data-reveal],.spec__bandeau{scroll-margin-top:6rem}
+.spec__corps{padding:clamp(2rem,5vw,4rem) var(--marge) 0;display:grid;gap:clamp(2.2rem,5vw,3.8rem)}
+.bloc__titre{
+  font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.1rem,2vw,1.5rem);letter-spacing:.05em;margin:0 0 .35rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+.bloc__titre::before{content:"";width:16px;height:16px;background:var(--rouge);border:2px solid var(--encre);flex-shrink:0}
+.bloc__intro{margin:0 0 1.3rem;max-width:62ch;font-size:.92rem;opacity:.85}
+
+.nuancier{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1rem}
+.nuance{border:2.5px solid var(--encre);border-radius:6px;overflow:hidden;background:var(--os-clair);
+  transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.nuance:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--encre)}
+.nuance__aplat{height:104px;border-bottom:2.5px solid var(--encre);position:relative}
+.nuance__aplat::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(rgba(23,17,15,.5) .9px,transparent 1px);background-size:7px 7px;opacity:.16}
+.nuance__pied{padding:.6rem .7rem .7rem}
+.nuance__nom{font-family:Anton,Impact,sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:1rem;line-height:1.1}
+.nuance__hex{font-size:.76rem;font-weight:700;letter-spacing:.09em;font-variant-numeric:tabular-nums;opacity:.75}
+.nuance__role{font-size:.74rem;line-height:1.35;margin-top:.35rem;opacity:.8}
+
+.typos{display:grid;gap:1rem}
+.typo{border:2.5px solid var(--encre);border-radius:6px;padding:1rem 1.1rem;background:var(--os-clair);
+  display:grid;gap:.5rem}
+.typo__meta{display:flex;flex-wrap:wrap;gap:.4rem .9rem;align-items:baseline;
+  font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+.typo__meta span:last-child{opacity:.65;letter-spacing:.05em;font-weight:500;text-transform:none}
+.typo__ex{margin:0;line-height:.9}
+.typo__ex--titre{font-family:Anton,Impact,sans-serif;font-size:clamp(2.2rem,7vw,4.4rem);text-transform:uppercase;letter-spacing:-.02em;padding-top:.3em}
+.typo__ex--jp{font-family:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN",sans-serif;font-weight:900;font-size:clamp(2rem,6vw,3.6rem);color:var(--rouge)}
+.typo__ex--corps{font-size:1.02rem;line-height:1.5;max-width:58ch}
+
+.matieres{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem}
+.matiere{border:2.5px solid var(--encre);border-radius:6px;overflow:hidden}
+.matiere__vue{height:118px;position:relative;background:var(--os)}
+.matiere__vue--trame::after{content:"";position:absolute;inset:0;
+  background-image:radial-gradient(var(--encre) .9px,transparent 1px);background-size:7px 7px;opacity:.10}
+.matiere__vue--grain{background:var(--rouge)}
+.matiere__vue--grain::after{content:"";position:absolute;inset:0;opacity:.3;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n2)'/%3E%3C/svg%3E")}
+.matiere__vue--photo{background:var(--gris);display:grid;place-items:center}
+.matiere__vue--photo span{font-family:Anton,Impact,sans-serif;text-transform:uppercase;font-size:.85rem;letter-spacing:.05em}
+.matiere__vue--photo::after{content:"";position:absolute;inset:8px;border:3px dashed var(--encre);border-radius:4px}
+.matiere__nom{padding:.55rem .7rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-top:2.5px solid var(--encre)}
+
+.mouvements{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;list-style:none;margin:0;padding:0}
+.mouvement{border-left:5px solid var(--rouge);padding:.15rem 0 .15rem .8rem}
+.mouvement b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.03em;font-size:.98rem}
+.mouvement span{font-size:.82rem;line-height:1.45;opacity:.82}
+
+[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity var(--t-slow),transform var(--t-slow)}
+[data-reveal].est-vu{opacity:1;transform:none}
+</style>
+
+<section class="spec" id="direction">
+  <div class="spec__bandeau">
+    <h2>La direction</h2>
+    <p>Papier imprim&eacute; + un seul rouge assum&eacute;. Le nom <b>Baka</b> (&#12496;&#12459;, &laquo;&nbsp;fou&nbsp;&raquo; en japonais) donne l'accent graphique&nbsp;: affiche japonaise, trame de points, typo qui hurle.</p>
+  </div>
+
+  <div class="spec__corps">
+    <div data-reveal>
+      <h3 class="bloc__titre">Palette</h3>
+      <p class="bloc__intro">Le vermillon domine&nbsp;: aplats pleine largeur, boutons, sceau. Le papier os ne devient jamais du blanc plat, il porte toujours la trame. Le jaune reste en micro-doses (&eacute;toiles, puces, sceau).</p>
+      <div class="nuancier">
+        <div class="nuance"><div class="nuance__aplat" style="background:#E42313"></div><div class="nuance__pied"><div class="nuance__nom">Vermillon</div><div class="nuance__hex">#E42313</div><p class="nuance__role">La dominante. Aplats pleine page, boutons, sceau.</p></div></div>
+        <div class="nuance"><div class="nuance__aplat" style="background:#F1E7D6"></div><div class="nuance__pied"><div class="nuance__nom">Papier os</div><div class="nuance__hex">#F1E7D6</div><p class="nuance__role">Le fond. Chaud, imprim&eacute;, jamais blanc.</p></div></div>
+        <div class="nuance"><div class="nuance__aplat" style="background:#17110F"></div><div class="nuance__pied"><div class="nuance__nom">Encre</div><div class="nuance__hex">#17110F</div><p class="nuance__role">Textes, contours 2,5&nbsp;px, ombres port&eacute;es dures.</p></div></div>
+        <div class="nuance"><div class="nuance__aplat" style="background:#FFC300"></div><div class="nuance__pied"><div class="nuance__nom">Jaune acide</div><div class="nuance__hex">#FFC300</div><p class="nuance__role">Micro-doses&nbsp;: &eacute;toiles, puce &laquo;&nbsp;ouvert&nbsp;&raquo;, sceau.</p></div></div>
+        <div class="nuance"><div class="nuance__aplat" style="background:#8E1207"></div><div class="nuance__pied"><div class="nuance__nom">Braise</div><div class="nuance__hex">#8E1207</div><p class="nuance__role">Trame dans le rouge, profondeur des aplats.</p></div></div>
+        <div class="nuance"><div class="nuance__aplat" style="background:#BDB2A2"></div><div class="nuance__pied"><div class="nuance__nom">Gris cal&eacute;</div><div class="nuance__hex">#BDB2A2</div><p class="nuance__role">Blocs &laquo;&nbsp;photo &agrave; remplacer&nbsp;&raquo;. Provisoire.</p></div></div>
+      </div>
+    </div>
+
+    <div data-reveal>
+      <h3 class="bloc__titre">Typographie</h3>
+      <p class="bloc__intro">Un titrage condens&eacute; qui prend la moiti&eacute; de l'&eacute;cran (19&nbsp;vw, interlignage 0,78), un caract&egrave;re japonais pour la marque, une grotesque solide pour tout le reste.</p>
+      <div class="typos">
+        <div class="typo">
+          <div class="typo__meta"><span>Anton</span><span>titres &middot; jusqu'&agrave; 19 vw &middot; interlettrage &minus;0,022 em</span></div>
+          <p class="typo__ex typo__ex--titre">B&Ecirc;TEMENT BON.</p>
+        </div>
+        <div class="typo">
+          <div class="typo__meta"><span>Zen Kaku Gothic New 900</span><span>signature &middot; &laquo;&nbsp;baka&nbsp;&raquo; en katakana</span></div>
+          <p class="typo__ex typo__ex--jp">&#12496;&#12459; &mdash; BAKA</p>
+        </div>
+        <div class="typo">
+          <div class="typo__meta"><span>Archivo 400 / 600 / 700</span><span>textes, boutons, &eacute;tiquettes</span></div>
+          <p class="typo__ex typo__ex--corps">Steak smash&eacute; &agrave; la minute sur la plancha, bords caram&eacute;lis&eacute;s, pain toast&eacute; au beurre. Ouvert de 13h &agrave; minuit, 1h le week-end.</p>
+        </div>
+      </div>
+    </div>
+
+    <div data-reveal>
+      <h3 class="bloc__titre">Mati&egrave;res</h3>
+      <p class="bloc__intro">Aucune image externe&nbsp;: la trame et le grain sont g&eacute;n&eacute;r&eacute;s en CSS/SVG, donc z&eacute;ro poids de chargement.</p>
+      <div class="matieres">
+        <div class="matiere"><div class="matiere__vue matiere__vue--trame"></div><div class="matiere__nom">Trame de points &middot; 7 px</div></div>
+        <div class="matiere"><div class="matiere__vue matiere__vue--grain"></div><div class="matiere__nom">Grain imprim&eacute; &middot; multiply</div></div>
+        <div class="matiere"><div class="matiere__vue matiere__vue--photo"><span>Photo &agrave; remplacer</span></div><div class="matiere__nom">Bloc photo provisoire</div></div>
+      </div>
+    </div>
+
+    <div data-reveal>
+      <h3 class="bloc__titre">Ce qui bouge</h3>
+      <p class="bloc__intro">Tout est d&eacute;sactiv&eacute; automatiquement pour les visiteurs qui r&eacute;duisent les animations.</p>
+      <ul class="mouvements">
+        <li class="mouvement"><b>&Agrave; l'ouverture</b><span>La barre descend, l'aplat rouge entre par la droite, les deux mots du titre montent l'un apr&egrave;s l'autre.</span></li>
+        <li class="mouvement"><b>Au scroll</b><span>Le burger monte moins vite que la page&nbsp;; les sections arrivent en fondu vers le haut.</span></li>
+        <li class="mouvement"><b>En continu</b><span>Le bandeau d&eacute;file, le sceau tourne, le burger flotte, la puce &laquo;&nbsp;ouvert&nbsp;&raquo; pulse.</span></li>
+        <li class="mouvement"><b>Au survol</b><span>Les boutons s'enfoncent dans leur ombre, les liens se soulignent en rouge, le bandeau se met en pause.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>

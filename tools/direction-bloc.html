@@ -59,13 +59,37 @@
 .matiere__vue--photo::after{content:"";position:absolute;inset:8px;border:3px dashed var(--encre);border-radius:4px}
 .matiere__nom{padding:.55rem .7rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-top:2.5px solid var(--encre)}
 
+.accroches{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.option{border:2.5px solid var(--encre);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.option--active{box-shadow:6px 6px 0 var(--rouge)}
+.option__haut{
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+  padding:.5rem .75rem;border-bottom:2.5px solid var(--encre);
+  font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+}
+.option--active .option__haut{background:var(--rouge);color:var(--os-clair)}
+.option__etat{font-size:.62rem;opacity:.8}
+.option__cri{
+  margin:0;padding:1.1rem .75rem 1.2rem;background:var(--os-clair);flex:1;
+  font-family:Anton,Impact,sans-serif;font-size:clamp(1.9rem,4.6vw,3.1rem);
+  line-height:.82;text-transform:uppercase;letter-spacing:-.02em;padding-top:.42em;
+}
+.option__cri span{color:var(--rouge)}
+.option__en{display:block;font-size:.52em;opacity:.45;margin-top:.35em}
+.option__note{margin:0;padding:.7rem .75rem;border-top:2px solid rgba(23,17,15,.15);font-size:.78rem;line-height:1.45;opacity:.85}
+.bascule{
+  margin:1.1rem 0 0;padding:.85rem 1rem;border-left:5px solid var(--rouge);
+  background:var(--os-clair);font-size:.85rem;line-height:1.5;
+}
+.bascule code{
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.92em;
+  background:var(--encre);color:var(--os);padding:.12em .4em;border-radius:3px;
+}
 .mouvements{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem;list-style:none;margin:0;padding:0}
 .mouvement{border-left:5px solid var(--rouge);padding:.15rem 0 .15rem .8rem}
 .mouvement b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.03em;font-size:.98rem}
 .mouvement span{font-size:.82rem;line-height:1.45;opacity:.82}
 
-[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity var(--t-slow),transform var(--t-slow)}
-[data-reveal].est-vu{opacity:1;transform:none}
 </style>
 
 <section class="spec" id="direction">
@@ -105,6 +129,30 @@
           <p class="typo__ex typo__ex--corps">Steak smash&eacute; &agrave; la minute sur la plancha, bords caram&eacute;lis&eacute;s, pain toast&eacute; au beurre. Ouvert de 13h &agrave; minuit, 1h le week-end.</p>
         </div>
       </div>
+    </div>
+
+    <div data-reveal>
+      <h3 class="bloc__titre">Accroche &mdash; deux versions</h3>
+      <p class="bloc__intro">La version en ligne joue sur le sens de &laquo;&nbsp;baka&nbsp;&raquo; (&#12496;&#12459;, &laquo;&nbsp;fou&nbsp;&raquo; en japonais). La version neutre ne fait aucun clin d'&oelig;il au nom&nbsp;: m&ecirc;me rythme, m&ecirc;me mise en page, m&ecirc;me second mot.</p>
+      <div class="accroches">
+        <div class="option option--active">
+          <div class="option__haut"><span>Version &laquo;&nbsp;baka&nbsp;&raquo;</span><span class="option__etat">En ligne</span></div>
+          <p class="option__cri">B&Ecirc;TEMENT BON<span>.</span><span class="option__en">Stupidly good.</span></p>
+          <p class="option__note">D&eacute;code le nom et assume la blague. M&eacute;morisable, mais suppose que le patron revendique le sens de &laquo;&nbsp;baka&nbsp;&raquo;.</p>
+        </div>
+        <div class="option">
+          <div class="option__haut"><span>Version neutre</span><span class="option__etat">Pr&ecirc;te</span></div>
+          <p class="option__cri">FRANCHEMENT BON<span>.</span><span class="option__en">Seriously good.</span></p>
+          <p class="option__note">Aucun renvoi au sens du nom. Le titre se r&eacute;duit tout seul sur petit &eacute;cran&nbsp;: le mot est plus long, la mise en page ne bouge pas.</p>
+        </div>
+      </div>
+      <p class="bascule">
+        Pour basculer&nbsp;: une seule ligne dans <code>index.html</code>,
+        <code>var ACCROCHE = "baka"</code> &rarr; <code>"neutre"</code>. Les deux
+        textes sont d&eacute;j&agrave; dans la page, en fran&ccedil;ais et en anglais.<br>
+        Le katakana &#12496;&#12459; de la signature reste dans les deux cas&nbsp;: c'est le nom
+        &eacute;crit en japonais, pas la blague. Le retirer est une d&eacute;cision s&eacute;par&eacute;e.
+      </p>
     </div>
 
     <div data-reveal>

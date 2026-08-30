@@ -170,7 +170,7 @@ a{color:inherit}
 /* le cri : deux lignes qui prennent la moitie de l'ecran */
 .cri{
   font-family:Anton,Impact,sans-serif;font-weight:400;
-  font-size:clamp(3.4rem,min(17.5vw,25svh),16rem);
+  font-size:calc(clamp(3.4rem,min(17.5vw,25svh),16rem) * var(--fit,1));
   line-height:.78;letter-spacing:-.022em;text-transform:uppercase;
   /* .42em : la reserve exacte mesuree pour le circonflexe d'Anton */
   margin:.42em 0 0;position:relative;z-index:3;
@@ -239,6 +239,14 @@ a{color:inherit}
 }
 .photo__meta{font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;opacity:.72;max-width:24ch}
 .photo--heros{aspect-ratio:1/1}
+.photo--menu{aspect-ratio:4/5}
+.photo--paysage{aspect-ratio:16/11}
+.photo--portrait{aspect-ratio:11/14}
+.photo--carte{aspect-ratio:16/9}
+.visually-hidden{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+}
 
 .sceau{
   position:absolute;left:-6%;bottom:2%;width:clamp(92px,11vw,146px);aspect-ratio:1/1;z-index:4;
@@ -261,11 +269,16 @@ a{color:inherit}
 
 /* ---------- bandeau defilant -------------------------------- */
 .bandeau{
-  position:absolute;left:0;right:0;bottom:0;z-index:5;
-  height:var(--rail);display:flex;align-items:center;
-  background:var(--encre);color:var(--os);
-  border-top:3px solid var(--encre);overflow:hidden;
+  position:relative;height:var(--rail);display:flex;align-items:center;
+  background:var(--encre);color:var(--os);overflow:hidden;
 }
+.bandeau--hero{position:absolute;left:0;right:0;bottom:0;z-index:5}
+.bandeau--rouge{
+  background:var(--rouge);color:var(--os-clair);
+  border-top:3px solid var(--encre);border-bottom:3px solid var(--encre);
+}
+.bandeau--rouge .bandeau__piste{animation-direction:reverse}
+.bandeau--rouge .bandeau__etoile{color:var(--encre)}
 .bandeau__piste{display:flex;flex-shrink:0;width:max-content;animation:defile 26s linear infinite;will-change:transform}
 .bandeau:hover .bandeau__piste{animation-play-state:paused}
 @keyframes defile{to{transform:translateX(-50%)}}
@@ -275,6 +288,113 @@ a{color:inherit}
   letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;
 }
 .bandeau__etoile{color:var(--jaune);font-size:.8em}
+
+/* ---------- arrivee des sections au scroll ------------------- */
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity var(--t-slow),transform var(--t-slow);transition-delay:var(--d,0s)}
+[data-reveal].est-vu{opacity:1;transform:none}
+
+/* ---------- ossature des sections --------------------------- */
+.section{position:relative;padding:clamp(3.4rem,8vw,7rem) 0;overflow:hidden;scroll-margin-top:5.5rem}
+.section__inner{position:relative;z-index:2;padding:0 var(--marge);margin:0 auto;max-width:1600px}
+.section--os{background:var(--os);color:var(--encre)}
+.section--rouge{background:var(--rouge);color:var(--os-clair)}
+.section--encre{background:var(--encre);color:var(--os)}
+.section--rouge .trame::before,.section--encre .trame::before{background-image:radial-gradient(var(--os) .9px,transparent 1px);opacity:.09}
+.section--rouge .trame::before{background-image:radial-gradient(var(--braise) 1px,transparent 1.2px);opacity:.45}
+
+.tete{display:grid;gap:.7rem;margin-bottom:clamp(1.8rem,4vw,3rem);max-width:64ch}
+.titre{
+  font-family:Anton,Impact,sans-serif;font-weight:400;margin:0;
+  font-size:clamp(2.4rem,7.5vw,5.5rem);line-height:.86;letter-spacing:-.02em;
+  text-transform:uppercase;text-wrap:balance;padding-top:.12em;
+}
+.chapo{margin:0;max-width:56ch;font-size:clamp(.96rem,.4vw + .86rem,1.1rem);line-height:1.55}
+.chapo--sombre{opacity:.9}
+.etiquette{
+  display:inline-flex;align-items:center;gap:.45rem;
+  align-self:start;justify-self:start;width:fit-content;
+  border:2px dashed currentColor;border-radius:999px;padding:.3rem .75rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;opacity:.75;
+}
+
+/* ---------- menu -------------------------------------------- */
+.cartes{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:clamp(1rem,2vw,1.6rem)}
+.carte{
+  display:flex;flex-direction:column;gap:.75rem;
+  background:var(--os-clair);border:2.5px solid var(--encre);border-radius:8px;
+  padding:.85rem .85rem 1rem;
+  transition:transform var(--t-med),box-shadow var(--t-med);
+}
+.carte:hover,.carte:focus-within{transform:translate(-5px,-5px);box-shadow:8px 8px 0 var(--encre)}
+.carte--large{grid-column:span 2}
+.carte__nom{
+  font-family:Anton,Impact,sans-serif;font-weight:400;margin:0;
+  font-size:clamp(1.15rem,1.9vw,1.6rem);line-height:1;letter-spacing:.01em;text-transform:uppercase;
+}
+.carte__desc{margin:0;font-size:.88rem;line-height:1.45;opacity:.82;flex:1}
+.carte__pied{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-top:.15rem}
+.prix{
+  border:2px dashed var(--encre);border-radius:6px;padding:.24rem .6rem;
+  font-size:.66rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;opacity:.55;
+}
+.rang{
+  font-family:Anton,Impact,sans-serif;font-size:.95rem;color:var(--rouge);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- le lieu ----------------------------------------- */
+.lieu{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(1.2rem,3vw,2.6rem);align-items:start}
+.lieu>*,.venir>*,.lieu__images>*,.cartes>*{min-width:0}
+.faits{display:grid;gap:1rem;margin:0;padding:0;list-style:none}
+.fait{border-top:3px solid currentColor;padding-top:.7rem}
+.fait__cle{
+  font-family:Anton,Impact,sans-serif;font-size:clamp(1.5rem,3vw,2.3rem);
+  line-height:1;text-transform:uppercase;letter-spacing:-.01em;
+}
+.fait__val{margin:.3rem 0 0;font-size:.92rem;line-height:1.45;opacity:.9;max-width:38ch}
+.lieu__images{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.7rem,1.6vw,1.2rem);min-width:0}
+.lieu__images .photo{background:var(--gris);color:var(--encre)}
+
+/* ---------- les avis ---------------------------------------- */
+.note{display:flex;flex-wrap:wrap;align-items:flex-end;gap:clamp(.8rem,2.5vw,2.4rem)}
+.note__chiffre{
+  font-family:Anton,Impact,sans-serif;font-size:clamp(5rem,16vw,13rem);line-height:.8;
+  color:var(--jaune);font-variant-numeric:tabular-nums;letter-spacing:-.02em;
+}
+.note__cote{display:grid;gap:.35rem;padding-bottom:clamp(.4rem,1.5vw,1.4rem)}
+.note__etoiles{color:var(--jaune);font-size:clamp(1.2rem,3vw,2rem);letter-spacing:-.02em;line-height:1}
+.note__total{margin:0;font-size:.95rem;font-weight:600;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.note__source{margin:0;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;opacity:.6}
+.avis{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:clamp(1.8rem,4vw,3rem)}
+.avis__slot{
+  border:3px dashed var(--os);border-radius:8px;padding:1.1rem 1rem;
+  display:grid;gap:.4rem;align-content:start;min-height:150px;opacity:.72;
+}
+.avis__slot .avis__titre{
+  font-family:Anton,Impact,sans-serif;font-size:.98rem;letter-spacing:.05em;text-transform:uppercase;
+}
+.avis__slot p{margin:0;font-size:.79rem;line-height:1.45}
+
+/* ---------- venir ------------------------------------------- */
+.venir{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:clamp(1.4rem,3vw,2.8rem);align-items:start}
+.coord{display:grid;gap:1.3rem;margin:0}
+.venir__pied{display:grid;gap:1.1rem;justify-items:start;margin-top:1.3rem}
+.coord__bloc{display:grid;gap:.3rem}
+.coord dt{
+  font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;opacity:.6;
+}
+.coord dd{margin:0;font-size:clamp(1rem,1.6vw,1.25rem);line-height:1.4;font-weight:600}
+.coord dd a{text-decoration:none;border-bottom:3px solid var(--rouge);padding-bottom:1px}
+.coord dd a:hover{background:var(--rouge);color:var(--os-clair);border-color:var(--encre)}
+.horaires{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.horaires th{text-align:left;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.6;padding:0 0 .5rem;font-weight:700}
+.horaires td{padding:.55rem 0;border-top:2px solid rgba(23,17,15,.16);font-size:.95rem}
+.horaires td:last-child{text-align:right;font-weight:700}
+
+.pied{background:var(--encre);color:var(--os);padding:clamp(2rem,4vw,3rem) 0 clamp(1.4rem,3vw,2rem)}
+.pied__inner{padding:0 var(--marge);display:flex;flex-wrap:wrap;gap:1.2rem 2rem;align-items:center;justify-content:space-between}
+.pied__note{margin:0;font-size:.76rem;opacity:.62;max-width:52ch;line-height:1.5}
+.pied .marque__mot{color:var(--os)}
 
 /* ---------- responsive -------------------------------------- */
 @media (max-width:900px){
@@ -292,7 +412,7 @@ a{color:inherit}
   }
   @keyframes panneauBas{to{transform:translateY(0)}}
   .hero__bas{max-width:none}
-  .cri{font-size:clamp(2.7rem,min(18.5vw,17svh),7rem)}
+  .cri{font-size:calc(clamp(2.7rem,min(18.5vw,17svh),7rem) * var(--fit,1))}
   .accroche{max-width:34ch;font-size:.97rem;margin-top:.9rem}
   .hero__actions{margin-top:1rem}
   .preuves{margin-top:1rem}
@@ -302,6 +422,10 @@ a{color:inherit}
     width:min(52vw,25svh);
   }
   .sceau{left:auto;right:-11%;bottom:6%;width:clamp(74px,19vw,104px)}
+  .cartes{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+  .lieu__images{grid-template-columns:1fr}
+  .carte--large{grid-column:auto}
+  .pied__inner{flex-direction:column;align-items:flex-start;gap:.9rem}
 }
 /* ecrans courts : le premier ecran doit rester un ecran */
 @media (max-height:720px){
@@ -372,7 +496,11 @@ a{color:inherit}
         <span data-fr="Smash burgers &middot; Hammamet" data-en="Smash burgers &middot; Hammamet">Smash burgers &middot; Hammamet</span>
       </p>
 
-      <h1 class="cri" data-fr-l1="B&Ecirc;TEMENT" data-fr-l2="BON" data-en-l1="STUPIDLY" data-en-l2="GOOD">
+      <h1 class="cri"
+          data-baka-fr-l1="B&Ecirc;TEMENT"    data-baka-fr-l2="BON"
+          data-baka-en-l1="STUPIDLY"     data-baka-en-l2="GOOD"
+          data-neutre-fr-l1="FRANCHEMENT" data-neutre-fr-l2="BON"
+          data-neutre-en-l1="SERIOUSLY"   data-neutre-en-l2="GOOD">
         <span class="cri__ligne"><span class="cri__mot js-l1">B&Ecirc;TEMENT</span></span>
         <span class="cri__ligne cri__ligne--deborde"><span class="cri__mot"><span class="js-l2">BON</span><span class="cri__point">.</span></span></span>
       </h1>
@@ -429,7 +557,7 @@ a{color:inherit}
   </div>
 
   <!-- bandeau defilant, visible sans scroller -->
-  <div class="bandeau" aria-hidden="true">
+  <div class="bandeau bandeau--hero" aria-hidden="true">
     <div class="bandeau__piste js-piste">
       <span class="bandeau__item js-bandeau-item">
         <span class="js-bandeau-txt" data-fr="Smash&eacute; &agrave; la minute" data-en="Smashed to order">Smash&eacute; &agrave; la minute</span>
@@ -441,9 +569,292 @@ a{color:inherit}
   </div>
 </header>
 
+<main>
+
+<!-- ============ MENU ============ -->
+<section class="section section--os" id="menu">
+  <div class="trame" aria-hidden="true"></div>
+  <div class="section__inner">
+    <div class="tete" data-reveal>
+      <p class="kicker">
+        <span class="kicker__trait" aria-hidden="true"></span>
+        <span data-fr="Ce qu'on smashe" data-en="What we smash">Ce qu'on smashe</span>
+      </p>
+      <h2 class="titre" data-fr="Le menu" data-en="The menu">Le menu</h2>
+      <p class="chapo" data-fr="Steak hach&eacute; &eacute;cras&eacute; sur la plancha br&ucirc;lante&nbsp;: la cro&ucirc;te se forme en quelques secondes, le jus reste dedans. Chaque burger est mont&eacute; &agrave; la commande." data-en="Beef pressed onto a searing plancha: the crust forms in seconds, the juice stays in. Every burger is built to order.">Steak hach&eacute; &eacute;cras&eacute; sur la plancha br&ucirc;lante&nbsp;: la cro&ucirc;te se forme en quelques secondes, le jus reste dedans. Chaque burger est mont&eacute; &agrave; la commande.</p>
+      <span class="etiquette" data-fr="Descriptions et prix &agrave; compl&eacute;ter" data-en="Descriptions and prices to be filled in">Descriptions et prix &agrave; compl&eacute;ter</span>
+    </div>
+
+    <div class="cartes">
+      <article class="carte" data-reveal style="--d:0s">
+        <div class="photo photo--menu">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta">1000 &times; 1250</span>
+        </div>
+        <h3 class="carte__nom">OG Burger</h3>
+        <p class="carte__desc" data-fr="Le classique de la maison." data-en="The house classic.">Le classique de la maison.</p>
+        <div class="carte__pied">
+          <span class="rang" aria-hidden="true">01</span>
+          <span class="prix" data-fr="Prix" data-en="Price">Prix</span>
+        </div>
+      </article>
+
+      <article class="carte" data-reveal style="--d:.07s">
+        <div class="photo photo--menu">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta">1000 &times; 1250</span>
+        </div>
+        <h3 class="carte__nom">Smashed Onions</h3>
+        <p class="carte__desc" data-fr="Oignons &eacute;cras&eacute;s dans la viande sur la plancha." data-en="Onions pressed into the beef on the plancha.">Oignons &eacute;cras&eacute;s dans la viande sur la plancha.</p>
+        <div class="carte__pied">
+          <span class="rang" aria-hidden="true">02</span>
+          <span class="prix" data-fr="Prix" data-en="Price">Prix</span>
+        </div>
+      </article>
+
+      <article class="carte" data-reveal style="--d:.14s">
+        <div class="photo photo--menu">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta">1000 &times; 1250</span>
+        </div>
+        <h3 class="carte__nom">Crispy Chicken</h3>
+        <p class="carte__desc" data-fr="Poulet pan&eacute;, croustillant." data-en="Breaded chicken, crisp.">Poulet pan&eacute;, croustillant.</p>
+        <div class="carte__pied">
+          <span class="rang" aria-hidden="true">03</span>
+          <span class="prix" data-fr="Prix" data-en="Price">Prix</span>
+        </div>
+      </article>
+
+      <article class="carte" data-reveal style="--d:.21s">
+        <div class="photo photo--menu">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta">1000 &times; 1250</span>
+        </div>
+        <h3 class="carte__nom">Truffle Double</h3>
+        <p class="carte__desc" data-fr="Double steak, truffe." data-en="Double patty, truffle.">Double steak, truffe.</p>
+        <div class="carte__pied">
+          <span class="rang" aria-hidden="true">04</span>
+          <span class="prix" data-fr="Prix" data-en="Price">Prix</span>
+        </div>
+      </article>
+
+      <article class="carte" data-reveal style="--d:.28s">
+        <div class="photo photo--menu">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta">1000 &times; 1250</span>
+        </div>
+        <h3 class="carte__nom">Chicken Tenders</h3>
+        <p class="carte__desc" data-fr="Tenders de poulet." data-en="Chicken tenders.">Tenders de poulet.</p>
+        <div class="carte__pied">
+          <span class="rang" aria-hidden="true">05</span>
+          <span class="prix" data-fr="Prix" data-en="Price">Prix</span>
+        </div>
+      </article>
+
+      <article class="carte" data-reveal style="--d:.35s">
+        <div class="photo photo--menu">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta">1000 &times; 1250</span>
+        </div>
+        <h3 class="carte__nom" data-fr="Boissons maison" data-en="House drinks">Boissons maison</h3>
+        <p class="carte__desc" data-fr="Pr&eacute;par&eacute;es sur place." data-en="Made on site.">Pr&eacute;par&eacute;es sur place.</p>
+        <div class="carte__pied">
+          <span class="rang" aria-hidden="true">06</span>
+          <span class="prix" data-fr="Prix" data-en="Price">Prix</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- bandeau separateur -->
+<div class="bandeau bandeau--rouge" aria-hidden="true">
+  <div class="bandeau__piste js-piste">
+    <span class="bandeau__item js-bandeau-item">
+      <span data-fr="Ouvert jusqu'&agrave; minuit" data-en="Open until midnight">Ouvert jusqu'&agrave; minuit</span>
+      <span class="bandeau__etoile">&#10038;</span>
+      <span data-fr="1h le week-end" data-en="1am at weekends">1h le week-end</span>
+      <span class="bandeau__etoile">&#10038;</span>
+    </span>
+  </div>
+</div>
+
+<!-- ============ LE LIEU ============ -->
+<section class="section section--rouge" id="lieu">
+  <div class="trame" aria-hidden="true"></div>
+  <div class="section__inner">
+    <div class="tete" data-reveal>
+      <p class="kicker">
+        <span class="kicker__trait" aria-hidden="true" style="background:var(--encre)"></span>
+        <span data-fr="60 Av. Habib Bourguiba" data-en="60 Av. Habib Bourguiba">60 Av. Habib Bourguiba</span>
+      </p>
+      <h2 class="titre" data-fr="Le lieu" data-en="The place">Le lieu</h2>
+      <p class="chapo chapo--sombre" data-fr="Sur l'avenue principale de Hammamet, l&agrave; o&ugrave; l'on passe le soir. On commande au comptoir, &ccedil;a smashe derri&egrave;re, on repart avec." data-en="On Hammamet's main avenue, where the evening happens. Order at the counter, hear it hit the plancha, take it away.">Sur l'avenue principale de Hammamet, l&agrave; o&ugrave; l'on passe le soir. On commande au comptoir, &ccedil;a smashe derri&egrave;re, on repart avec.</p>
+    </div>
+
+    <div class="lieu">
+      <ul class="faits" data-reveal>
+        <li class="fait">
+          <div class="fait__cle" data-fr="Cinq langues" data-en="Five languages">Cinq langues</div>
+          <p class="fait__val" data-fr="Le patron en parle cinq. Personne ne commande en h&eacute;sitant." data-en="The owner speaks five of them. Nobody orders hesitantly here.">Le patron en parle cinq. Personne ne commande en h&eacute;sitant.</p>
+        </li>
+        <li class="fait">
+          <div class="fait__cle" data-fr="13h &rarr; minuit" data-en="1pm &rarr; midnight">13h &rarr; minuit</div>
+          <p class="fait__val" data-fr="Et jusqu'&agrave; 1h le week-end, quand l'avenue ne se vide pas." data-en="And until 1am at weekends, when the avenue stays full.">Et jusqu'&agrave; 1h le week-end, quand l'avenue ne se vide pas.</p>
+        </li>
+        <li class="fait">
+          <div class="fait__cle" data-fr="Beaucoup de Britanniques" data-en="A lot of Brits">Beaucoup de Britanniques</div>
+          <p class="fait__val" data-fr="Une grande part de la clientele vient du Royaume-Uni&nbsp;: le site bascule en anglais d'un clic." data-en="A large share of the regulars come from the UK, so the site switches to English in one click.">Une grande part de la client&egrave;le vient du Royaume-Uni&nbsp;: le site bascule en anglais d'un clic.</p>
+        </li>
+      </ul>
+
+      <div class="lieu__images" data-reveal style="--d:.1s">
+        <div class="photo photo--paysage">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta" data-fr="La devanture &middot; 1600 &times; 1100" data-en="The storefront &middot; 1600 &times; 1100">La devanture &middot; 1600 &times; 1100</span>
+        </div>
+        <div class="photo photo--portrait">
+          <span class="photo__label" data-fr="Photo &agrave; remplacer" data-en="Photo to replace">Photo &agrave; remplacer</span>
+          <span class="photo__meta" data-fr="La plancha &middot; 1100 &times; 1400" data-en="The plancha &middot; 1100 &times; 1400">La plancha &middot; 1100 &times; 1400</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LES AVIS ============ -->
+<section class="section section--encre" id="avis">
+  <div class="trame" aria-hidden="true"></div>
+  <div class="section__inner">
+    <div class="tete" data-reveal>
+      <p class="kicker">
+        <span class="kicker__trait" aria-hidden="true" style="background:var(--jaune)"></span>
+        <span data-fr="Ce qu'ils en disent" data-en="What they say">Ce qu'ils en disent</span>
+      </p>
+      <h2 class="titre" data-fr="Les avis" data-en="Reviews">Les avis</h2>
+    </div>
+
+    <div class="note" data-reveal>
+      <div class="note__chiffre js-compteur" data-vers="4,9" aria-hidden="true">0,0</div>
+      <div class="note__cote">
+        <div class="note__etoiles" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="note__total">
+          <span class="js-compteur" data-vers="492">0</span>
+          <span data-fr="avis" data-en="reviews">avis</span>
+        </p>
+        <p class="note__source" data-fr="Note Google" data-en="Google rating">Note Google</p>
+      </div>
+      <p class="visually-hidden">4,9 sur 5</p>
+    </div>
+
+    <div class="avis">
+      <div class="avis__slot" data-reveal style="--d:0s">
+        <span class="avis__titre" data-fr="Avis &agrave; ins&eacute;rer" data-en="Review to insert">Avis &agrave; ins&eacute;rer</span>
+        <p data-fr="Trois vrais avis Google &agrave; copier ici, avec le pr&eacute;nom et la date. Aucun texte n'a &eacute;t&eacute; invent&eacute;." data-en="Three real Google reviews go here, with first name and date. No text has been invented.">Trois vrais avis Google &agrave; copier ici, avec le pr&eacute;nom et la date. Aucun texte n'a &eacute;t&eacute; invent&eacute;.</p>
+      </div>
+      <div class="avis__slot" data-reveal style="--d:.08s">
+        <span class="avis__titre" data-fr="Avis &agrave; ins&eacute;rer" data-en="Review to insert">Avis &agrave; ins&eacute;rer</span>
+        <p data-fr="Choisir de pr&eacute;f&eacute;rence un avis en anglais&nbsp;: il parlera &agrave; la client&egrave;le britannique." data-en="Pick an English one if you can &mdash; it will land with the British regulars.">Choisir de pr&eacute;f&eacute;rence un avis en anglais&nbsp;: il parlera &agrave; la client&egrave;le britannique.</p>
+      </div>
+      <div class="avis__slot" data-reveal style="--d:.16s">
+        <span class="avis__titre" data-fr="Avis &agrave; ins&eacute;rer" data-en="Review to insert">Avis &agrave; ins&eacute;rer</span>
+        <p data-fr="Un avis qui cite un burger pr&eacute;cis vaut mieux qu'un avis g&eacute;n&eacute;ral." data-en="A review naming a specific burger beats a generic one.">Un avis qui cite un burger pr&eacute;cis vaut mieux qu'un avis g&eacute;n&eacute;ral.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VENIR ============ -->
+<section class="section section--os" id="venir">
+  <div class="trame" aria-hidden="true"></div>
+  <div class="section__inner">
+    <div class="tete" data-reveal>
+      <p class="kicker">
+        <span class="kicker__trait" aria-hidden="true"></span>
+        <span data-fr="Hammamet" data-en="Hammamet">Hammamet</span>
+      </p>
+      <h2 class="titre" data-fr="Venir" data-en="Find us">Venir</h2>
+    </div>
+
+    <div class="venir">
+      <div data-reveal>
+      <dl class="coord">
+        <div class="coord__bloc">
+          <dt data-fr="Adresse" data-en="Address">Adresse</dt>
+          <dd>60 Av. Habib Bourguiba,<br>Hammamet</dd>
+        </div>
+        <div class="coord__bloc">
+          <dt data-fr="T&eacute;l&eacute;phone" data-en="Phone">T&eacute;l&eacute;phone</dt>
+          <dd><a href="tel:+21692358203">+216 92 358 203</a></dd>
+        </div>
+        <div class="coord__bloc">
+          <dt data-fr="Horaires" data-en="Opening hours">Horaires</dt>
+          <dd>
+            <table class="horaires">
+              <tr>
+                <td data-fr="Tous les jours" data-en="Every day">Tous les jours</td>
+                <td>13h &rarr; 00h</td>
+              </tr>
+              <tr>
+                <td data-fr="Le week-end" data-en="Weekends">Le week-end</td>
+                <td data-fr="jusqu'&agrave; 01h" data-en="until 01h">jusqu'&agrave; 01h</td>
+              </tr>
+            </table>
+          </dd>
+        </div>
+      </dl>
+      <div class="venir__pied">
+        <span class="etiquette" data-fr="Jours exacts du week-end &agrave; confirmer" data-en="Exact weekend days to confirm">Jours exacts du week-end &agrave; confirmer</span>
+        <div class="hero__actions">
+          <a class="btn" href="tel:+21692358203">
+            <span class="btn__puce" aria-hidden="true"></span>
+            <span data-fr="Commander &middot; 92 358 203" data-en="Order &middot; 92 358 203">Commander &middot; 92 358 203</span>
+          </a>
+        </div>
+      </div>
+
+      </div>
+
+      <div data-reveal style="--d:.1s">
+        <div class="photo photo--carte">
+          <span class="photo__label" data-fr="Carte &agrave; int&eacute;grer" data-en="Map to embed">Carte &agrave; int&eacute;grer</span>
+          <span class="photo__meta" data-fr="Google Maps &middot; 60 Av. Habib Bourguiba, Hammamet" data-en="Google Maps &middot; 60 Av. Habib Bourguiba, Hammamet">Google Maps &middot; 60 Av. Habib Bourguiba, Hammamet</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="pied">
+  <div class="pied__inner">
+    <a class="marque" href="#" aria-label="Baka Burger">
+      <span class="marque__jp" aria-hidden="true">&#12496;&#12459;</span>
+      <span class="marque__mot">Baka Burger</span>
+    </a>
+    <p class="pied__note" data-fr="60 Av. Habib Bourguiba, Hammamet &middot; +216 92 358 203 &middot; 13h &rarr; minuit, 1h le week-end" data-en="60 Av. Habib Bourguiba, Hammamet &middot; +216 92 358 203 &middot; 1pm &rarr; midnight, 1am at weekends">60 Av. Habib Bourguiba, Hammamet &middot; +216 92 358 203 &middot; 13h &rarr; minuit, 1h le week-end</p>
+    <p class="pied__note" data-fr="D&eacute;mo de prospection &mdash; photos, descriptions et prix &agrave; compl&eacute;ter." data-en="Prospecting demo &mdash; photos, descriptions and prices still to be filled in.">D&eacute;mo de prospection &mdash; photos, descriptions et prix &agrave; compl&eacute;ter.</p>
+  </div>
+</footer>
+
+
 <script>
 (function(){
   "use strict";
+
+  /* ==========================================================
+     ACCROCHE — deux versions pretes, une seule ligne a changer.
+       "baka"   : B&Ecirc;TEMENT BON. / STUPIDLY GOOD.
+                  Joue sur le sens de "baka" (fou) en japonais.
+       "neutre" : FRANCHEMENT BON. / SERIOUSLY GOOD.
+                  Ne fait aucun clin d'oeil au sens du nom.
+     A basculer si le patron ne veut pas assumer la blague.
+     Note : le katakana en signature reste dans les deux cas,
+     c'est le nom ecrit en japonais, pas la blague. Le retirer
+     est une decision separee.
+     ========================================================== */
+  var ACCROCHE = "baka";
   var reduit = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var langueActive = "fr";
 
@@ -451,18 +862,19 @@ a{color:inherit}
      L'animation -50% reboucle alors sans raccord visible, quelle que soit la
      largeur des motifs. A refaire une fois les polices chargees : Anton est
      bien plus etroit que la police de secours. ---- */
-  var piste = document.querySelector(".js-piste");
-  var motifHTML = piste ? piste.innerHTML : "";
+  var pistes = [].slice.call(document.querySelectorAll(".js-piste"));
+  var motifsHTML = pistes.map(function(el){ return el.innerHTML; });
 
   function monterBandeau(){
-    if (!piste) return;
-    piste.innerHTML = motifHTML;
-    var motif = piste.querySelector(".js-bandeau-item");
-    var large = motif.getBoundingClientRect().width;
-    if (!large) return;
-    var besoin = Math.min(40, Math.max(2, Math.ceil(window.innerWidth / large) + 1));
-    for (var i = 1; i < besoin; i++) piste.appendChild(motif.cloneNode(true));
-    piste.innerHTML += piste.innerHTML;
+    pistes.forEach(function(piste, i){
+      piste.innerHTML = motifsHTML[i];
+      var motif = piste.querySelector(".js-bandeau-item");
+      var large = motif.getBoundingClientRect().width;
+      if (!large) return;
+      var besoin = Math.min(40, Math.max(2, Math.ceil(window.innerWidth / large) + 1));
+      for (var n = 1; n < besoin; n++) piste.appendChild(motif.cloneNode(true));
+      piste.innerHTML += piste.innerHTML;
+    });
     if (langueActive !== "fr") traduire();
   }
 
@@ -484,15 +896,35 @@ a{color:inherit}
     appliquer();
   }
 
+  /* ---- compteurs : la note grimpe quand la section arrive ---- */
+  function lancerCompteur(el){
+    var cible = el.dataset.vers;
+    var decimal = cible.indexOf(",") > -1;
+    var fin = parseFloat(cible.replace(",", "."));
+    if (reduit) { el.textContent = cible; return; }
+    var debut = performance.now(), duree = 1100;
+    (function pas(t){
+      var k = Math.min(1, (t - debut) / duree);
+      var v = fin * (1 - Math.pow(1 - k, 3));
+      el.textContent = decimal ? v.toFixed(1).replace(".", ",") : Math.round(v);
+      if (k < 1) requestAnimationFrame(pas);
+      else el.textContent = cible;
+    })(debut);
+  }
+
   /* ---- reveal a l'arrivee des sections ---- */
   var aReveler = document.querySelectorAll("[data-reveal]");
   if (aReveler.length) {
     if (reduit || !("IntersectionObserver" in window)) {
       aReveler.forEach(function(el){ el.classList.add("est-vu"); });
+      [].forEach.call(document.querySelectorAll(".js-compteur"), lancerCompteur);
     } else {
       var obs = new IntersectionObserver(function(entrees){
         entrees.forEach(function(e){
-          if (e.isIntersecting) { e.target.classList.add("est-vu"); obs.unobserve(e.target); }
+          if (!e.isIntersecting) return;
+          e.target.classList.add("est-vu");
+          [].forEach.call(e.target.querySelectorAll(".js-compteur"), lancerCompteur);
+          obs.unobserve(e.target);
         });
       }, { threshold: .16, rootMargin: "0px 0px -8% 0px" });
       aReveler.forEach(function(el){ obs.observe(el); });
@@ -518,14 +950,15 @@ a{color:inherit}
     langueActive = code;
     traduire();
     if (cri && l1 && l2) {
-      l1.textContent = cri.getAttribute("data-" + code + "-l1");
-      l2.textContent = cri.getAttribute("data-" + code + "-l2");
+      l1.textContent = cri.getAttribute("data-" + ACCROCHE + "-" + code + "-l1");
+      l2.textContent = cri.getAttribute("data-" + ACCROCHE + "-" + code + "-l2");
     }
     document.documentElement.lang = code;
     boutons.forEach(function(b){
       b.setAttribute("aria-pressed", String(b.dataset.lang === code));
     });
     try { localStorage.setItem("baka-langue", code); } catch (e) {}
+    if (typeof ajusterCri === "function") ajusterCri();
   }
 
   boutons.forEach(function(b){
@@ -536,11 +969,35 @@ a{color:inherit}
   try { memo = localStorage.getItem("baka-langue"); } catch (e) {}
   if (memo === "en") appliquerLangue("en");
 
-  monterBandeau();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(monterBandeau);
+  if (ACCROCHE !== "baka") appliquerLangue(langueActive);
+
+  /* ---- le titre se reduit si un mot depasse la colonne ---- */
+  function ajusterCri(){
+    if (!cri) return;
+    var dispo = cri.clientWidth;
+    if (!dispo) return;
+    // Range : scrollWidth d'un bloc renvoie la boite, pas la largeur du texte
+    var large = 0, mesure = document.createRange();
+    [].forEach.call(cri.querySelectorAll(".cri__mot"), function(mot){
+      mesure.selectNodeContents(mot);
+      large = Math.max(large, mesure.getBoundingClientRect().width);
+    });
+    if (!large) return;
+    // on deduit la largeur naturelle du facteur en cours : pas besoin
+    // d'attendre un reflow apres remise a zero
+    var actuel = parseFloat(cri.style.getPropertyValue("--fit")) || 1;
+    var voulu = Math.max(.5, Math.min(1, dispo / (large / actuel)));
+    if (voulu < 0.999) cri.style.setProperty("--fit", voulu.toFixed(4));
+    else cri.style.removeProperty("--fit");
+  }
+
+  function remettreEnPage(){ monterBandeau(); ajusterCri(); }
+
+  remettreEnPage();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(remettreEnPage);
   var tempo;
   window.addEventListener("resize", function(){
-    clearTimeout(tempo); tempo = setTimeout(monterBandeau, 220);
+    clearTimeout(tempo); tempo = setTimeout(remettreEnPage, 220);
   });
 })();
 </script>
